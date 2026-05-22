@@ -47,7 +47,7 @@ export const experience = [
   {
     company: "Open Government Products",
     role: "Senior Software Engineer",
-    period: "September 2025 to Present",
+    period: "September 2025 to Now",
     location: "Singapore",
     badge: "OGP",
     icon: "ogp",

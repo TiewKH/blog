@@ -1,0 +1,33 @@
+---
+import CompanyIcon from "./CompanyIcon.astro";
+import { experience, profile } from "../lib/profile";
+
+interface Props {
+  className: string;
+  titleId: string;
+}
+
+const { className, titleId } = Astro.props as Props;
+---
+
+<section class={className} aria-labelledby={titleId}>
+  <div class="section-heading inline">
+    <h2 id={titleId}>Experience</h2>
+    <div class="hero-actions">
+      <a class="button primary" href={profile.resume}>Download PDF</a>
+    </div>
+  </div>
+  <div class="experience-list">
+    {experience.map((item) => (
+      <article class="experience-row">
+        <CompanyIcon icon={item.icon} label={item.company} />
+        <div>
+          <h3>{item.company}</h3>
+          <p>{item.role}</p>
+          <p>{item.period}</p>
+        </div>
+        <p>{item.summary}</p>
+      </article>
+    ))}
+  </div>
+</section>

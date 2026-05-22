@@ -1,10 +1,13 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import CompanyIcon from "../components/CompanyIcon.astro";
+import ContactSection from "../components/ContactSection.astro";
+import ExperienceSection from "../components/ExperienceSection.astro";
+import ProfileIntro from "../components/ProfileIntro.astro";
+import ProfilePanels from "../components/ProfilePanels.astro";
 import SocialIcon from "../components/SocialIcon.astro";
-import WritingBrowser from "../components/WritingBrowser.astro";
+import WritingSection from "../components/WritingSection.astro";
 import { getPosts, getPostHref, readingTime } from "../lib/posts";
-import { experience, focusAreas, profile } from "../lib/profile";
+import { profile } from "../lib/profile";
 
 const posts = await getPosts();
 const articleEntries = await Promise.all(
@@ -80,51 +83,9 @@ const articleEntries = await Promise.all(
           </span>
         </header>
         <div class="window-body readme-body">
-          <p class="file-kicker">README.md</p>
-          <h1 id="readme-title">{profile.name}</h1>
-          <section class="readme-about">
-            <img src="/assets/img/dinosaur.jpg" alt="Tiew Kee Hui with a dinosaur painted on a wall" />
-            <p>{profile.summary}</p>
-          </section>
-
-          <section class="readme-profile-grid">
-            <article class="profile-panel">
-              <h2>Current focus</h2>
-              <p>
-                I am now working at Open Government Products building for public good.
-              </p>
-              <ul class="chip-list">
-                {focusAreas.map((area) => <li>{area}</li>)}
-              </ul>
-            </article>
-            <article class="profile-panel">
-              <h2>Technical stack</h2>
-              <ul class="chip-list">
-                {profile.stack.map((item) => <li>{item}</li>)}
-              </ul>
-            </article>
-          </section>
-
-          <section class="readme-experience-section" aria-labelledby="readme-experience-title">
-            <div class="section-heading inline">
-              <h2 id="readme-experience-title">Experience</h2>
-              <div class="hero-actions">
-                <a class="button primary" href={profile.resume}>Download PDF</a>
-              </div>
-            </div>
-            <div class="experience-list">
-              {experience.map((item) => (
-                <article class="experience-row">
-                  <CompanyIcon icon={item.icon} label={item.company} />
-                  <div>
-                    <h3>{item.company}</h3>
-                    <p>{item.role} &middot; {item.period}</p>
-                  </div>
-                  <p>{item.summary}</p>
-                </article>
-              ))}
-            </div>
-          </section>
+          <ProfileIntro variant="readme" titleId="readme-title" />
+          <ProfilePanels className="readme-profile-grid" />
+          <ExperienceSection className="readme-experience-section" titleId="readme-experience-title" />
         </div>
         <span class="window-resize-handle right" data-window-resize="right" aria-hidden="true"></span>
         <span class="window-resize-handle bottom" data-window-resize="bottom" aria-hidden="true"></span>
@@ -140,11 +101,7 @@ const articleEntries = await Promise.all(
           </span>
         </header>
         <div class="window-body writing-app-body">
-          <section class="page-heading writing-heading window-writing-heading">
-            <h1>Technical notes and engineering writeups</h1>
-            <p>Code-heavy posts, data explorations, visualization experiments, and machine learning notes.</p>
-          </section>
-          <WritingBrowser posts={posts} />
+          <WritingSection posts={posts} headingClass="window-writing-heading" />
         </div>
         <span class="window-resize-handle right" data-window-resize="right" aria-hidden="true"></span>
         <span class="window-resize-handle bottom" data-window-resize="bottom" aria-hidden="true"></span>
@@ -195,29 +152,7 @@ const articleEntries = await Promise.all(
           </span>
         </header>
         <div class="window-body">
-          <section class="contact-layout contact-window-layout">
-            <div class="contact-copy">
-              <h1>Let's talk about code, data, or opportunities.</h1>
-              <p>
-                Feel free to contact me about anything related to my posts here, software engineering,
-                data science, machine learning, or career opportunities.
-              </p>
-            </div>
-
-            <form class="contact-form" action="https://formspree.io/tiewkeehui95@hotmail.com" method="POST">
-              <input type="hidden" name="_subject" value="New message from tiewkh.github.io" />
-              <label for="os-contact-name">Name</label>
-              <input type="text" id="os-contact-name" name="name" autocomplete="name" required />
-
-              <label for="os-contact-email">Email address</label>
-              <input type="email" id="os-contact-email" name="_replyto" autocomplete="email" required />
-
-              <label for="os-contact-message">Message</label>
-              <textarea name="message" id="os-contact-message" rows="8" required></textarea>
-
-              <button type="submit">Send message</button>
-            </form>
-          </section>
+          <ContactSection className="contact-window-layout" idPrefix="os" />
         </div>
         <span class="window-resize-handle right" data-window-resize="right" aria-hidden="true"></span>
         <span class="window-resize-handle bottom" data-window-resize="bottom" aria-hidden="true"></span>
@@ -228,49 +163,9 @@ const articleEntries = await Promise.all(
     </div>
   </section>
 
-  <section class="page-heading home-about website-home">
-    <img src={'/assets/img/dinosaur.jpg'} alt="Tiew Kee Hui with a dinosaur painted on a wall" />
-    <p>{profile.summary}</p>
-  </section>
-
-  <section class="profile-grid website-home">
-    <article class="profile-panel">
-      <h2>Current focus</h2>
-      <p>
-        I am now working at Open Government Products building for public good.
-      </p>
-      <ul class="chip-list">
-        {focusAreas.map((area) => <li>{area}</li>)}
-      </ul>
-    </article>
-    <article class="profile-panel">
-      <h2>Technical stack</h2>
-      <ul class="chip-list">
-        {profile.stack.map((item) => <li>{item}</li>)}
-      </ul>
-    </article>
-  </section>
-
-  <section class="experience-section website-home" aria-labelledby="experience-title">
-    <div class="section-heading inline">
-      <h2 id="experience-title">Experience</h2>
-      <div class="hero-actions">
-        <a class="button primary" href={profile.resume}>Download PDF</a>
-      </div>
-    </div>
-    <div class="experience-list">
-      {experience.map((item) => (
-        <article class="experience-row">
-          <CompanyIcon icon={item.icon} label={item.company} />
-          <div>
-            <h3>{item.company}</h3>
-            <p>{item.role} &middot; {item.period}</p>
-          </div>
-          <p>{item.summary}</p>
-        </article>
-      ))}
-    </div>
-  </section>
+  <ProfileIntro variant="website" />
+  <ProfilePanels className="profile-grid website-home" />
+  <ExperienceSection className="experience-section website-home" titleId="experience-title" />
 
   <script>
     // @ts-nocheck

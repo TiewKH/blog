@@ -1239,7 +1239,11 @@ body[data-window-interaction="resize"] {
 }
 
 .readme-experience-section {
-  padding-bottom: 28px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: oklch(0.995 0.006 110 / 0.92);
+  box-shadow: var(--shadow);
 }
 
 .role-line {
@@ -1612,6 +1616,15 @@ body[data-window-interaction="resize"] {
 
 .experience-section {
   padding-bottom: 72px;
+}
+
+.experience-section.website-home {
+  padding: 22px;
+  margin-bottom: 72px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: oklch(0.995 0.006 110 / 0.92);
+  box-shadow: var(--shadow);
 }
 
 .experience-list {

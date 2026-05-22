@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import ContactSection from "../components/ContactSection.astro";
 ---
 
 <BaseLayout title="Contact" description="Contact Tiew Kee Hui about the blog, machine learning, or career opportunities.">
@@ -7,27 +8,5 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     <meta name="referrer" content="origin" />
   </Fragment>
 
-  <section class="contact-layout">
-    <div class="contact-copy">
-      <h1>Let's talk about code, data, or opportunities.</h1>
-      <p>
-        Feel free to contact me about anything related to my posts here, software engineering,
-        data science, machine learning, or career opportunities.
-      </p>
-    </div>
-
-    <form class="contact-form" action="https://formspree.io/tiewkeehui95@hotmail.com" method="POST">
-      <input type="hidden" name="_subject" value="New message from tiewkh.github.io" />
-      <label for="name">Name</label>
-      <input type="text" id="name" name="name" autocomplete="name" required />
-
-      <label for="email">Email address</label>
-      <input type="email" id="email" name="_replyto" autocomplete="email" required />
-
-      <label for="message">Message</label>
-      <textarea name="message" id="message" rows="8" required></textarea>
-
-      <button type="submit">Send message</button>
-    </form>
-  </section>
+  <ContactSection />
 </BaseLayout>

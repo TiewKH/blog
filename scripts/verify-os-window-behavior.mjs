@@ -5,8 +5,12 @@ const root = process.cwd();
 const index = readFileSync(join(root, "src/pages/index.astro"), "utf8");
 const blogIndex = readFileSync(join(root, "src/pages/blog/index.astro"), "utf8");
 const companyIcon = readFileSync(join(root, "src/components/CompanyIcon.astro"), "utf8");
+const experienceSection = readFileSync(join(root, "src/components/ExperienceSection.astro"), "utf8");
+const profileIntro = readFileSync(join(root, "src/components/ProfileIntro.astro"), "utf8");
+const profilePanels = readFileSync(join(root, "src/components/ProfilePanels.astro"), "utf8");
 const socialIcon = readFileSync(join(root, "src/components/SocialIcon.astro"), "utf8");
 const writingBrowser = readFileSync(join(root, "src/components/WritingBrowser.astro"), "utf8");
+const writingSection = readFileSync(join(root, "src/components/WritingSection.astro"), "utf8");
 const css = readFileSync(join(root, "src/styles/global.css"), "utf8");
 const layout = readFileSync(join(root, "src/layouts/BaseLayout.astro"), "utf8");
 const manifest = readFileSync(join(root, "public/assets/img/favicon_io/site.webmanifest"), "utf8");
@@ -74,10 +78,12 @@ const checks = [
   {
     name: "Writing.app uses the same browser UI as the blog page",
     pass:
-      index.includes('import WritingBrowser from "../components/WritingBrowser.astro"') &&
-      blogIndex.includes('import WritingBrowser from "../../components/WritingBrowser.astro"') &&
-      index.includes("<WritingBrowser posts={posts} />") &&
-      blogIndex.includes("<WritingBrowser posts={posts} />") &&
+      index.includes('import WritingSection from "../components/WritingSection.astro"') &&
+      blogIndex.includes('import WritingSection from "../../components/WritingSection.astro"') &&
+      index.includes('<WritingSection posts={posts} headingClass="window-writing-heading" />') &&
+      blogIndex.includes("<WritingSection posts={posts} />") &&
+      writingSection.includes('import WritingBrowser from "./WritingBrowser.astro"') &&
+      writingSection.includes("<WritingBrowser posts={posts} />") &&
       writingBrowser.includes('class="writing-browser"')
   },
   {
@@ -209,7 +215,8 @@ const checks = [
     name: "first landing view opens About in website and OS modes",
     pass:
       index.includes('let focusedId = defaultState[initialApp] ? initialApp : "readme"') &&
-      index.includes('class="page-heading home-about website-home"') &&
+      index.includes('<ProfileIntro variant="website" />') &&
+      profileIntro.includes('class="page-heading home-about website-home"') &&
       index.includes("centered: true") &&
       index.includes('data-window-id="readme"')
   },
@@ -267,7 +274,7 @@ const checks = [
   {
     name: "experience rows render company icons",
     pass:
-      index.includes("CompanyIcon") &&
+      experienceSection.includes("CompanyIcon") &&
       companyIcon.includes("company-icon") &&
       companyIcon.includes("<img") &&
       companyIcon.includes("open_government_products_logo.jpg") &&
@@ -275,16 +282,18 @@ const checks = [
       companyIcon.includes("moneylion_logo.jpg") &&
       companyIcon.includes("airasia_logo.jpg") &&
       companyIcon.includes("ifast_logo.jpg") &&
-      index.includes("item.icon") &&
+      experienceSection.includes("item.icon") &&
       css.includes(".company-icon")
   },
   {
     name: "README window mirrors website index content",
     pass:
-      index.includes('class="readme-profile-grid"') &&
-      index.includes('class="readme-experience-section"') &&
-      index.includes("focusAreas.map") &&
-      index.includes("experience.map")
+      index.includes('<ProfilePanels className="readme-profile-grid" />') &&
+      index.includes('<ProfilePanels className="profile-grid website-home" />') &&
+      index.includes('<ExperienceSection className="readme-experience-section" titleId="readme-experience-title" />') &&
+      index.includes('<ExperienceSection className="experience-section website-home" titleId="experience-title" />') &&
+      profilePanels.includes("focusAreas.map") &&
+      experienceSection.includes("experience.map")
   },
   {
     name: "favicon bundle is fully referenced",

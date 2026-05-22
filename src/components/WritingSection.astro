@@ -1,0 +1,19 @@
+---
+import type { CollectionEntry } from "astro:content";
+import WritingBrowser from "./WritingBrowser.astro";
+
+interface Props {
+  posts: CollectionEntry<"blog">[];
+  headingClass?: string;
+}
+
+const { posts, headingClass = "" } = Astro.props as Props;
+const headingClasses = ["page-heading", "writing-heading", headingClass].filter(Boolean).join(" ");
+---
+
+<section class={headingClasses}>
+  <h1>Technical notes and engineering writeups</h1>
+  <p>Code-heavy posts, data explorations, visualization experiments, and machine learning notes.</p>
+</section>
+
+<WritingBrowser posts={posts} />
