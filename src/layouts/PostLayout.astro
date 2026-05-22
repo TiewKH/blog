@@ -1,0 +1,35 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import { readingTime } from "../lib/posts";
+
+interface Props {
+  title: string;
+  description?: string;
+  date: Date;
+  image?: string;
+  words?: number;
+}
+
+const { title, description, date, image, words = 0 } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="post-shell">
+    <header class="post-hero">
+      <h1>{title}</h1>
+      {description && <p class="lede">{description}</p>}
+      <div class="post-meta">
+        <time datetime={date.toISOString()}>{date.toLocaleDateString("en", { month: "long", day: "numeric", year: "numeric" })}</time>
+        <span>{readingTime(words)} min read</span>
+      </div>
+    </header>
+    {image && (
+      <figure class="featured-media">
+        <img src={`/assets/img/${image}`} alt="" />
+      </figure>
+    )}
+    <div class="post-content">
+      <slot />
+    </div>
+  </article>
+</BaseLayout>

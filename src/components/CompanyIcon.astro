@@ -1,0 +1,22 @@
+---
+const logoByIcon = {
+  ogp: "/assets/img/open_government_products_logo.jpg",
+  shopback: "/assets/img/shopback_logo.jpg",
+  moneylion: "/assets/img/moneylion_logo.jpg",
+  airasia: "/assets/img/airasia_logo.jpg",
+  ifast: "/assets/img/ifast_logo.jpg",
+  jobstreet: "/assets/img/jobstreet_logo.jpg"
+} as const;
+
+interface Props {
+  icon: keyof typeof logoByIcon;
+  label: string;
+}
+
+const { icon, label } = Astro.props;
+const src = logoByIcon[icon];
+---
+
+<span class={`company-icon company-icon--${icon}`} aria-label={label} role="img">
+  <img src={src} alt="" loading="lazy" decoding="async" />
+</span>

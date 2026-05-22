@@ -1,0 +1,129 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getPostHref, readingTime } from "../lib/posts";
+
+interface Props {
+  posts: CollectionEntry<"blog">[];
+}
+
+const { posts } = Astro.props as Props;
+---
+
+<section class="writing-browser" aria-label="Blog posts">
+  <div class="writing-toolbar">
+    <label class="search-box">
+      <span>Search articles</span>
+      <input type="search" placeholder="Search by title or description" data-post-search />
+    </label>
+    <p class="writing-count" data-post-count aria-live="polite"></p>
+  </div>
+
+  <div class="article-table">
+    {posts.map((post) => {
+      const words = post.body.split(/\s+/).filter(Boolean).length;
+      const searchable = `${post.data.title} ${post.data.description ?? ""}`.toLowerCase();
+      return (
+        <article class="article-row" data-post-row data-search={searchable}>
+          <div>
+            <h2><a href={getPostHref(post.id)}>{post.data.title}</a></h2>
+            {post.data.description && <p>{post.data.description}</p>}
+          </div>
+          <div class="article-meta">
+            <time datetime={post.data.date.toISOString()}>{post.data.date.toLocaleDateString("en", { month: "short", day: "numeric", year: "numeric" })}</time>
+            <span>{readingTime(words)} min read</span>
+          </div>
+        </article>
+      );
+    })}
+  </div>
+
+  <p class="article-empty" data-post-empty hidden>No articles match your search.</p>
+
+  <nav class="pagination" aria-label="Blog post pagination" data-post-pagination>
+    <button type="button" data-page-prev>Previous</button>
+    <div class="pagination-pages" data-page-list></div>
+    <button type="button" data-page-next>Next</button>
+  </nav>
+</section>
+
+<script>
+  // @ts-nocheck
+  const writingBrowsers = [...document.querySelectorAll(".writing-browser")];
+
+  writingBrowsers.forEach((browser) => {
+    const search = browser.querySelector("[data-post-search]");
+    const rows = [...browser.querySelectorAll("[data-post-row]")];
+    const count = browser.querySelector("[data-post-count]");
+    const empty = browser.querySelector("[data-post-empty]");
+    const pagination = browser.querySelector("[data-post-pagination]");
+    const pageList = browser.querySelector("[data-page-list]");
+    const prevButton = browser.querySelector("[data-page-prev]");
+    const nextButton = browser.querySelector("[data-page-next]");
+    const pageSize = 6;
+    let currentPage = 1;
+
+    function matchingRows() {
+      const query = search?.value?.toLowerCase() ?? "";
+      return rows.filter((row) => row.getAttribute("data-search")?.includes(query));
+    }
+
+    function renderPagination(totalPages) {
+      if (!pageList) return;
+      pageList.replaceChildren();
+      for (let index = 1; index <= totalPages; index += 1) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = String(index);
+        button.dataset.pageNumber = String(index);
+        button.setAttribute("aria-label", `Go to page ${index}`);
+        if (index === currentPage) button.setAttribute("aria-current", "page");
+        button.addEventListener("click", () => {
+          currentPage = index;
+          updateRows();
+        });
+        pageList.append(button);
+      }
+    }
+
+    function updateRows() {
+      const matches = matchingRows();
+      const totalPages = Math.max(1, Math.ceil(matches.length / pageSize));
+      currentPage = Math.min(currentPage, totalPages);
+      const start = (currentPage - 1) * pageSize;
+      const end = start + pageSize;
+      const visibleRows = new Set(matches.slice(start, end));
+
+      rows.forEach((row) => {
+        row.toggleAttribute("hidden", !visibleRows.has(row));
+      });
+
+      if (count) {
+        const visibleStart = matches.length === 0 ? 0 : start + 1;
+        const visibleEnd = Math.min(end, matches.length);
+        count.textContent = matches.length === rows.length
+          ? `Showing ${visibleStart}-${visibleEnd} of ${rows.length} articles`
+          : `Showing ${visibleStart}-${visibleEnd} of ${matches.length} matches`;
+      }
+
+      if (empty) empty.hidden = matches.length > 0;
+      if (pagination) pagination.hidden = matches.length <= pageSize;
+      if (prevButton) prevButton.disabled = currentPage === 1;
+      if (nextButton) nextButton.disabled = currentPage === totalPages;
+      renderPagination(totalPages);
+    }
+
+    search?.addEventListener("input", () => {
+      currentPage = 1;
+      updateRows();
+    });
+    prevButton?.addEventListener("click", () => {
+      currentPage = Math.max(1, currentPage - 1);
+      updateRows();
+    });
+    nextButton?.addEventListener("click", () => {
+      currentPage += 1;
+      updateRows();
+    });
+    updateRows();
+  });
+</script>

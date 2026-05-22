@@ -1,0 +1,253 @@
+---
+import "../styles/global.css";
+import SocialIcon from "../components/SocialIcon.astro";
+import { profile, siteTitle } from "../lib/profile";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = siteTitle, description = "Machine learning, data systems, fullstack engineering notes, and technical writing." } = Astro.props;
+const pageTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
+const pathname = Astro.url.pathname;
+const isHome = pathname === "/";
+const enableGoogleAnalytics = import.meta.env.PROD;
+const pageAppTitle = pathname.startsWith("/blog/") ? "Writing.app" : pathname.startsWith("/about/") ? "README.md" : pathname.startsWith("/contact/") ? "Contact.app" : "Website.app";
+const bodyClass = [
+  isHome ? "home-page" : undefined,
+  !isHome ? "os-subpage" : undefined,
+  !isHome ? `os-app-${pageAppTitle.replace(/\W+/g, "-").replace(/-$/, "").toLowerCase()}` : undefined
+].filter(Boolean).join(" ");
+
+const navItems = [
+  { href: "/", label: "About" },
+  { href: "/blog/", label: "Writings" },
+  { href: "/contact/", label: "Contact" }
+];
+
+const socialLinks = [
+  {
+    href: profile.github,
+    label: "GitHub",
+    icon: "github"
+  },
+  {
+    href: profile.linkedin,
+    label: "LinkedIn",
+    icon: "linkedin"
+  }
+] as const;
+---
+
+<!doctype html>
+<html lang="en" data-mode="os">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    {enableGoogleAnalytics && (
+      <>
+        <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-89L9XET7YL"></script>
+        <script is:inline>
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag("js", new Date());
+          gtag("config", "G-89L9XET7YL");
+        </script>
+      </>
+    )}
+    <link rel="icon" href="/assets/img/favicon_io/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon_io/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon_io/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicon_io/apple-touch-icon.png" />
+    <link rel="manifest" href="/assets/img/favicon_io/site.webmanifest" />
+    <meta name="theme-color" content="#f6fbfa" />
+    <slot name="head" />
+    <title>{pageTitle}</title>
+    <script is:inline>
+      (() => {
+        const root = document.documentElement;
+        const normalize = (mode) => {
+          if (mode === "workbench") return "os";
+          if (mode === "reader") return "website";
+          return mode === "os" ? "os" : "website";
+        };
+        function getOsAppForPath(path) {
+          return path.startsWith("/about/") ? "readme" :
+            path.startsWith("/blog/") && path !== "/blog/" ? `writing&article=${encodeURIComponent(path)}&route=${encodeURIComponent(path)}` :
+            path === "/blog" || path === "/blog/" || path.startsWith("/archive/") ? `writing&route=${encodeURIComponent(path)}` :
+            path.startsWith("/contact/") ? `contact&route=${encodeURIComponent(path)}` :
+            "";
+        }
+        function applyExternalLinkTargets() {
+          document.querySelectorAll("a[href]").forEach((link) => {
+            const href = link.getAttribute("href");
+            if (!href) return;
+            const url = new URL(href, window.location.href);
+            if (!["http:", "https:"].includes(url.protocol) || url.origin === window.location.origin) return;
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+          });
+        }
+        function resizeLegacyFrame(iframe) {
+          try {
+            const doc = iframe.contentDocument;
+            if (!doc) return;
+            const body = doc.body;
+            const html = doc.documentElement;
+            const height = Math.max(
+              body?.scrollHeight || 0,
+              body?.offsetHeight || 0,
+              html?.scrollHeight || 0,
+              html?.offsetHeight || 0,
+              760
+            );
+            iframe.style.height = `${height}px`;
+            iframe.scrolling = "no";
+          } catch {
+            iframe.style.height = iframe.style.height || "760px";
+          }
+        }
+        function applyLegacyFrameSizing() {
+          document.querySelectorAll(".legacy-frame iframe").forEach((iframe) => {
+            const resize = () => {
+              resizeLegacyFrame(iframe);
+              window.setTimeout(() => resizeLegacyFrame(iframe), 250);
+              window.setTimeout(() => resizeLegacyFrame(iframe), 1000);
+            };
+            if (!iframe.dataset.legacyFrameSizing) {
+              iframe.dataset.legacyFrameSizing = "true";
+              iframe.addEventListener("load", resize);
+            }
+            resize();
+          });
+        }
+        const apply = (mode) => {
+          const requested = normalize(mode);
+          const canOs = window.matchMedia("(min-width: 768px)").matches;
+          const next = canOs && requested === "os" ? "os" : "website";
+          root.dataset.osAvailable = canOs ? "true" : "false";
+          localStorage.setItem("siteMode", requested);
+          const path = window.location.pathname;
+          if (next === "website" && document.body?.classList.contains("home-page") && path !== "/") {
+            window.location.assign(path);
+            return;
+          }
+          if (next === "os" && path !== "/") {
+            const app = getOsAppForPath(path);
+            if (app) {
+              window.location.replace(`/?app=${app}`);
+              return;
+            }
+          }
+          root.dataset.mode = next;
+        };
+        apply(localStorage.getItem("siteMode") || "os");
+        window.addEventListener("resize", () => {
+          apply(localStorage.getItem("siteMode") || "os");
+          applyLegacyFrameSizing();
+        });
+        window.addEventListener("DOMContentLoaded", () => {
+          applyExternalLinkTargets();
+          applyLegacyFrameSizing();
+          document.querySelectorAll("[data-mode-choice]").forEach((button) => {
+            button.addEventListener("click", () => {
+              const mode = button.getAttribute("data-mode-choice");
+              apply(mode);
+            });
+          });
+        });
+      })();
+    </script>
+  </head>
+  <body class={bodyClass || undefined}>
+    {!isHome && (
+      <section class="os-page-shell" aria-label="OS mode">
+        <div class="os-menubar">
+          <a class="os-brand" href="/" aria-label="Home">
+            <img class="os-brand-logo" src="/assets/img/logo.png" alt="" />
+          </a>
+          <a href="/blog/" data-os-app-link="writing">Writing</a>
+          <a href="/" data-os-app-link="readme">About</a>
+          <a href="/contact/" data-os-app-link="contact">Contact</a>
+          <div class="mode-toggle" role="group" aria-label="Display mode">
+            <button type="button" data-mode-choice="website">
+              <span aria-hidden="true">[]</span>
+              Website
+            </button>
+            <button type="button" data-mode-choice="os">
+              <span aria-hidden="true">/</span>
+              OS
+            </button>
+          </div>
+        </div>
+        <aside class="desktop-dock os-page-dock" aria-label="Desktop links">
+          <a class="desktop-icon" href="/blog/" data-os-app-link="writing">
+            <span class="icon-file pen">P</span>
+            Writing.app
+          </a>
+          <a class="desktop-icon" href={profile.resume}>
+            <span class="icon-file pdf">PDF</span>
+            Resume.pdf
+          </a>
+          <a class="desktop-icon" href={profile.github}>
+            <span class="icon-file social" aria-hidden="true"><SocialIcon icon="github" /></span>
+            GitHub
+          </a>
+          <a class="desktop-icon" href={profile.linkedin}>
+            <span class="icon-file social" aria-hidden="true"><SocialIcon icon="linkedin" /></span>
+            LinkedIn
+          </a>
+          <a class="desktop-icon" href="/contact/" data-os-app-link="contact">
+            <span class="icon-file chat">C</span>
+            Contact.app
+          </a>
+        </aside>
+      </section>
+    )}
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="Home">
+        <span class="brand-mark">
+          <img src="/assets/img/logo.png" alt="" />
+        </span>
+        <span>
+          <strong>{profile.name}</strong>
+          <small>{profile.role}</small>
+        </span>
+      </a>
+      <nav aria-label="Primary navigation">
+        {navItems.map((item) => (
+          <a href={item.href} aria-current={(item.href === "/" ? pathname === "/" || pathname.startsWith("/about/") : pathname.startsWith(item.href)) ? "page" : undefined}>
+            {item.label}
+          </a>
+        ))}
+      </nav>
+      <div class="mode-toggle" role="group" aria-label="Display mode">
+        <button type="button" data-mode-choice="website">
+          <span aria-hidden="true">[]</span>
+          Website
+        </button>
+        <button type="button" data-mode-choice="os">
+          <span aria-hidden="true">/</span>
+          OS
+        </button>
+      </div>
+    </header>
+    <main class="site-main" data-os-window-title={pageAppTitle}>
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="footer-links" aria-label="Social links">
+        {socialLinks.map((link) => (
+          <a class="icon-link" href={link.href} aria-label={link.label} title={link.label}>
+            <SocialIcon icon={link.icon} />
+          </a>
+        ))}
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,145 @@
+﻿<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Visualization of Total Accidents in Malaysia</title><style>body{margin:0;padding:24px;font-family:Arial,sans-serif;background:#fff}.post{max-width:1040px;margin:0 auto;overflow-x:auto}</style></head><body><div class="post">
+  <style>
+    body{
+      text-align: center;
+    }
+
+    .countries{
+      stroke: #fff;
+    }
+    .legend rect{
+      stroke: #000;
+    }
+
+    .legend, .legend_title text{
+      font-size:10pt;
+    }
+
+    .barlabel {
+      font-size:8pt;
+      text-anchor: middle;
+
+    }
+  </style>
+
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="https://d3js.org/topojson.v2.min.js"></script>
+  <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+  <script src="https://d3js.org/d3-geo-projection.v1.min.js"></script>
+  <script src="/assets/js/dataviza3.js"></script>
+  <script>
+    // Code adopted from http://bl.ocks.org/tomschulze/961d57bd1bbd2a9ef993f2e8645cb8d2 and removed unnecessary code and code I do not understand
+    // Code for projecting the map on the appropriate size was adopted from the instructions provided in the Assignment 3 files
+    
+    /// params
+    
+    //Colour if the ID is undefined or used to set other states' color when hovering over legend
+    var color_na = d3.rgb("#d4d4d4");
+    
+    // only works if array.length-1 is between 3 and 9 (d3 color scheme)
+    var quantiles = [0, 0.2, 0.4, 0.6, 0.8, 1];
+    var init_year = 2011;
+    var headline = "Number of accidents in Malaysia by state in ";
+
+    /// main
+    d3.select("div.post").insert("h3").text(headline + init_year);
+    
+    // slider
+    d3.select("div.post").insert("p").append("input")
+        .attr("type", "range")
+        .attr("min", "2011")
+        .attr("max", "2015")
+        .attr("value", init_year)
+        .attr("id", "year");
+
+    // init map container, projection
+    var width = 960, height = 425;
+    var svg_map = d3.select("div.post").insert("svg")
+                  .attr("id", "map")
+                  .attr("height", height)
+                  .attr("width", width);
+    var projection = d3.geoMercator();
+
+    var path = d3.geoPath().projection(projection);
+
+    // init legend container
+    svg_map.append("g")
+        .attr("class", "legend");
+    svg_map.append("g")
+        .attr("class", "legend_title")
+        .append("text");
+
+    // init bars container
+    var margin = {top: 30, right:10, bottom:50, left:30};
+    var svgBarsWidth = 960 - margin.left - margin.right,
+        svgBarsHeight = 200 - margin.top - margin.bottom;
+
+    var x = d3.scaleBand()
+                .rangeRound([0, svgBarsWidth])
+                .padding(.05);
+    var y = d3.scaleLinear().range([svgBarsHeight, 0]);
+
+    var svg_bars = d3.select("div.post")
+        .append("svg")
+          .attr("id", "bars")
+          .attr("width", svgBarsWidth + margin.left + margin.right)
+          .attr("height", svgBarsHeight + margin.top + margin.bottom + 50)
+        .append("g")
+          .attr("class", "bars")
+          .attr("transform", "translate(" + margin.left + ", " + margin.top + ")");
+
+    //Load accidents data set
+    d3.json("/assets/data/totalaccidents.json", function(error, d) {
+
+      if (error) throw error;
+
+      let data_all = d['TotalAccidents'];
+
+      let data = data_all[init_year];
+      let color = calcColorScale(data);
+
+      //Load map data and render
+      d3.json("/assets/data/malaysia_topo.json", function(error, malaysianmap) {
+        if (error) throw error;
+        var neighbourhoods = topojson.feature(malaysianmap, malaysianmap.objects.collection); 
+        // set default projection values 
+        projection
+              .scale(1)
+              .translate([0, 0]);
+
+          // creates bounding box and helps with projection and scaling
+          var b = path.bounds(neighbourhoods),
+              s = .95 / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / height),
+              t = [(width - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2 - 80];
+
+          // set project with bounding box data
+          projection
+              .scale(s)
+              .translate(t);
+
+        // Drawing the map
+        svg_map.append("g")
+          .attr("class", "countries")
+          .selectAll("path")
+          .data(topojson.feature(malaysianmap, malaysianmap.objects.collection).features)
+          .enter().append("path")
+            .attr("d", path)
+            .attr("id", function(d) { return d.properties.id; })
+            .call(fillMap, color, data);
+
+        // Legends and bar chart
+        renderLegend(color, data);
+        renderBars(color, data);
+      }); // map data
+
+      // Using slider
+      d3.select("#year").on("input", function() {
+          //Update map, legend and bar based on value obtained from slider
+          let upd_color = calcColorScale(data_all[this.value]);
+          updateMap(upd_color, data_all[this.value]);
+          renderLegend(upd_color, data_all[this.value]);
+          renderBars(upd_color, data_all[this.value]);
+      });
+    });
+
+  </script></div></body></html>

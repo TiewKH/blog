@@ -1,0 +1,17 @@
+---
+interface Props {
+  src: string;
+  title: string;
+  height?: number;
+}
+
+const { src, title, height = 760 } = Astro.props;
+---
+
+<figure class="legacy-frame">
+  <iframe src={src} title={title} loading="lazy" style={`height: ${height}px`}></iframe>
+  <figcaption>
+    Legacy interactive/output embed.
+    <a href={src}>Open full page</a>
+  </figcaption>
+</figure>
