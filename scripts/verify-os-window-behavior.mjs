@@ -76,8 +76,8 @@ const checks = [
     pass:
       index.includes('import WritingBrowser from "../components/WritingBrowser.astro"') &&
       blogIndex.includes('import WritingBrowser from "../../components/WritingBrowser.astro"') &&
-      index.includes("<WritingBrowser posts={posts} tags={tags} />") &&
-      blogIndex.includes("<WritingBrowser posts={posts} tags={tags} />") &&
+      index.includes("<WritingBrowser posts={posts} />") &&
+      blogIndex.includes("<WritingBrowser posts={posts} />") &&
       writingBrowser.includes('class="writing-browser"')
   },
   {
@@ -112,6 +112,25 @@ const checks = [
       /data-mode-choice="website"[\s\S]*data-mode-choice="os"/.test(layout) &&
       !/data-mode-choice="os"[\s\S]{0,180}data-mode-choice="website"/.test(index) &&
       !/data-mode-choice="os"[\s\S]{0,180}data-mode-choice="website"/.test(layout)
+  },
+  {
+    name: "mobile view disables OS mode and stays in website mode",
+    pass:
+      layout.includes('const next = canOs && requested === "os" ? "os" : "website"') &&
+      layout.includes('localStorage.setItem("siteMode", next)') &&
+      css.includes('@media (max-width: 767px)') &&
+      css.includes('.mode-toggle {\n    display: none;') &&
+      css.includes('html[data-mode="os"] .os-home {\n    display: none;') &&
+      css.includes('html[data-mode="os"] .website-home {\n    display: revert;')
+  },
+  {
+    name: "mobile header exposes primary navigation",
+    pass:
+      css.includes(".site-header nav {\n    display: flex;") &&
+      css.includes("grid-column: 1 / -1;") &&
+      css.includes("order: 3;") &&
+      css.includes(".site-header nav a {\n    flex: 1 1 0;") &&
+      !css.includes(".brand small,\n  .site-header nav")
   },
   {
     name: "website and OS top bars use matching desktop sizing",
@@ -275,8 +294,8 @@ const checks = [
       layout.includes('/assets/img/favicon_io/favicon-16x16.png') &&
       layout.includes('/assets/img/favicon_io/apple-touch-icon.png') &&
       layout.includes('/assets/img/favicon_io/site.webmanifest') &&
-      manifest.includes('/assets/img/favicon_io/android-chrome-192x192.png') &&
-      manifest.includes('/assets/img/favicon_io/android-chrome-512x512.png')
+      manifest.includes('/android-chrome-192x192.png') &&
+      manifest.includes('/android-chrome-512x512.png')
   },
   {
     name: "shared social icon component backs OS desktop icons",

@@ -131,7 +131,7 @@ const socialLinks = [
           const canOs = window.matchMedia("(min-width: 768px)").matches;
           const next = canOs && requested === "os" ? "os" : "website";
           root.dataset.osAvailable = canOs ? "true" : "false";
-          localStorage.setItem("siteMode", requested);
+          localStorage.setItem("siteMode", next);
           const path = window.location.pathname;
           if (next === "website" && document.body?.classList.contains("home-page") && path !== "/") {
             window.location.assign(path);
