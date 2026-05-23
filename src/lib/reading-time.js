@@ -9,12 +9,16 @@ export function countWords(text) {
 }
 
 export function articleWordCount(post) {
-  return countWords([
-    post.data.title,
-    post.data.description,
-    post.body,
-    localIframeText(post.body)
-  ].filter(Boolean).join(" "));
+  return countWords(
+    [
+      post.data.title,
+      post.data.description,
+      post.body,
+      localIframeText(post.body),
+    ]
+      .filter(Boolean)
+      .join(" "),
+  );
 }
 
 export function readingTime(words) {

@@ -4,7 +4,13 @@ const pad = (value: number) => String(value).padStart(2, "0");
 const buildVersion = `v${buildDate.getFullYear()}.${pad(buildDate.getMonth() + 1)}.${pad(buildDate.getDate())}`;
 ---
 
-<section class="boot-splash" aria-label="TiewOS boot screen" role="status" aria-live="polite" data-boot-splash>
+<section
+  class="boot-splash"
+  aria-label="TiewOS boot screen"
+  role="status"
+  aria-live="polite"
+  data-boot-splash
+>
   <div class="boot-panel">
     <div class="boot-logo-shell" aria-hidden="true">
       <img src="/assets/img/logo.png" alt="" />
@@ -30,7 +36,10 @@ const buildVersion = `v${buildDate.getFullYear()}.${pad(buildDate.getMonth() + 1
     const midB = Math.round(Math.max(midA + 46, 250 + Math.random() * 72));
     ring.style.setProperty("--boot-duration", `${duration}ms`);
     ring.style.setProperty("--boot-progress-mid-a", `${midA}deg`);
-    ring.style.setProperty("--boot-progress-mid-b", `${Math.min(midB, 340)}deg`);
+    ring.style.setProperty(
+      "--boot-progress-mid-b",
+      `${Math.min(midB, 340)}deg`,
+    );
     window.__tiewosBootDurationMs = duration;
   })();
 </script>

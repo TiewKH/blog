@@ -24,7 +24,9 @@
   --max: 1180px;
   --article: 82ch;
   --topbar-height: 48px;
-  --font-body: "Atkinson Hyperlegible", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body:
+    "Atkinson Hyperlegible", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
   --font-display: "Recursive", ui-sans-serif, system-ui;
   --font-code: "JetBrains Mono", ui-monospace, monospace;
   --text-micro: 0.66rem;
@@ -55,11 +57,15 @@ body {
   min-height: 100vh;
   margin: 0;
   background:
-    linear-gradient(180deg, oklch(0.995 0.006 125), oklch(0.972 0.012 185) 42%, var(--bg)),
+    linear-gradient(
+      180deg,
+      oklch(0.995 0.006 125),
+      oklch(0.972 0.012 185) 42%,
+      var(--bg)
+    ),
     linear-gradient(115deg, var(--bg-wash-green), transparent 34%),
     linear-gradient(290deg, var(--bg-wash-violet), transparent 38%),
-    linear-gradient(0deg, transparent 0 72%, var(--bg-wash-warm)),
-    var(--bg);
+    linear-gradient(0deg, transparent 0 72%, var(--bg-wash-warm)), var(--bg);
   background-attachment: fixed;
   background-size: auto;
   color: var(--ink);
@@ -121,8 +127,16 @@ button {
   place-items: center;
   padding: clamp(18px, 5vw, 56px);
   background:
-    radial-gradient(circle at 20% 18%, oklch(0.58 0.12 265 / 0.2), transparent 34%),
-    radial-gradient(circle at 78% 80%, oklch(0.55 0.145 155 / 0.18), transparent 36%),
+    radial-gradient(
+      circle at 20% 18%,
+      oklch(0.58 0.12 265 / 0.2),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 78% 80%,
+      oklch(0.55 0.145 155 / 0.18),
+      transparent 36%
+    ),
     linear-gradient(180deg, oklch(0.15 0.018 225), oklch(0.2 0.026 215));
   color: oklch(0.94 0.018 130);
 }
@@ -140,8 +154,18 @@ html[data-boot-splash] body {
   position: absolute;
   inset: 0;
   background:
-    repeating-linear-gradient(180deg, transparent 0 6px, oklch(0.94 0.018 130 / 0.035) 6px 7px),
-    linear-gradient(90deg, oklch(0.55 0.145 155 / 0.08), transparent 28%, transparent 72%, oklch(0.64 0.17 35 / 0.08));
+    repeating-linear-gradient(
+      180deg,
+      transparent 0 6px,
+      oklch(0.94 0.018 130 / 0.035) 6px 7px
+    ),
+    linear-gradient(
+      90deg,
+      oklch(0.55 0.145 155 / 0.08),
+      transparent 28%,
+      transparent 72%,
+      oklch(0.64 0.17 35 / 0.08)
+    );
   pointer-events: none;
 }
 
@@ -180,10 +204,15 @@ html[data-boot-splash] body {
   inset: 0;
   border-radius: 50%;
   background:
-    conic-gradient(from 0deg, var(--accent) 0 var(--boot-progress), oklch(0.76 0.024 210 / 0.24) var(--boot-progress) 360deg),
+    conic-gradient(
+      from 0deg,
+      var(--accent) 0 var(--boot-progress),
+      oklch(0.76 0.024 210 / 0.24) var(--boot-progress) 360deg
+    ),
     oklch(0.22 0.025 225);
   mask: radial-gradient(circle, transparent 0 57%, oklch(0.1 0 0) 58%);
-  animation: boot-ring-progress var(--boot-duration, 2s) cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: boot-ring-progress var(--boot-duration, 2s)
+    cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .boot-copy {
@@ -241,7 +270,9 @@ html[data-boot-splash] body {
 .boot-splash.is-complete {
   opacity: 0;
   transform: translateY(-6px);
-  transition: opacity 240ms cubic-bezier(0.16, 1, 0.3, 1), transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition:
+    opacity 240ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes boot-ring-progress {
@@ -677,7 +708,10 @@ html[data-mode="os"] .mode-toggle [data-mode-choice="os"] {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--surface);
-  transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+  transition:
+    border-color 160ms ease,
+    transform 160ms ease,
+    box-shadow 160ms ease;
 }
 
 .post-card:hover {
@@ -741,7 +775,11 @@ html[data-mode="os"] .mode-toggle [data-mode-choice="os"] {
   border-bottom: 0;
   border-radius: var(--radius) var(--radius) 0 0;
   background:
-    linear-gradient(180deg, oklch(0.995 0.005 120 / 0.98), oklch(0.985 0.006 125 / 0.94)),
+    linear-gradient(
+      180deg,
+      oklch(0.995 0.005 120 / 0.98),
+      oklch(0.985 0.006 125 / 0.94)
+    ),
     var(--surface);
   box-shadow: 0 22px 68px oklch(0.25 0.03 235 / 0.1);
 }
@@ -1070,7 +1108,10 @@ html[data-mode="os"] body:not(.home-page) > .site-main.is-maximized {
   margin-bottom: 14px;
 }
 
-html[data-mode="os"] body:not(.home-page) > .site-main > .os-subpage-window-bar {
+html[data-mode="os"]
+  body:not(.home-page)
+  > .site-main
+  > .os-subpage-window-bar {
   position: sticky;
   top: 0;
   z-index: 5;
@@ -1089,7 +1130,10 @@ html[data-mode="os"] body:not(.home-page) > .site-main > .os-subpage-window-bar 
   font-weight: 700;
 }
 
-html[data-mode="os"] body:not(.home-page) > .site-main > :is(section, article, div):not(.os-subpage-window-bar) {
+html[data-mode="os"]
+  body:not(.home-page)
+  > .site-main
+  > :is(section, article, div):not(.os-subpage-window-bar) {
   width: min(var(--max), calc(100% - 44px));
 }
 
@@ -1128,7 +1172,6 @@ html[data-mode="os"] body:not(.home-page) > .site-main > :is(section, article, d
   border: 0;
   background: transparent;
 }
-
 
 .os-brand {
   display: inline-flex;
@@ -1258,7 +1301,11 @@ kbd {
   box-shadow: var(--shadow);
   overflow: hidden;
   touch-action: none;
-  transition: border-color 160ms ease, box-shadow 160ms ease, opacity 180ms ease, transform 180ms ease;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    opacity 180ms ease,
+    transform 180ms ease;
   transform-origin: center;
 }
 
@@ -2074,7 +2121,10 @@ body[data-window-interaction="resize"] {
     box-shadow: none;
   }
 
-  html[data-mode="os"] body:not(.home-page) > .site-main > .os-subpage-window-bar {
+  html[data-mode="os"]
+    body:not(.home-page)
+    > .site-main
+    > .os-subpage-window-bar {
     display: none;
   }
 

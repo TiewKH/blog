@@ -8,9 +8,9 @@ export default defineConfig({
   markdown: {
     shikiConfig: {
       theme: "github-dark",
-      wrap: true
-    }
+      wrap: true,
+    },
   },
 
-  integrations: [sitemap()]
+  integrations: [sitemap()],
 });

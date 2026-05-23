@@ -11,18 +11,20 @@ const portraitSrc = "/assets/img/dinosaur.jpg";
 const portraitAlt = "Tiew Kee Hui with a dinosaur painted on a wall";
 ---
 
-{variant === "readme" ? (
-  <>
-    <p class="file-kicker">README.md</p>
-    <h1 id={titleId}>{profile.name}</h1>
-    <section class="readme-about">
+{
+  variant === "readme" ? (
+    <>
+      <p class="file-kicker">README.md</p>
+      <h1 id={titleId}>{profile.name}</h1>
+      <section class="readme-about">
+        <img src={portraitSrc} alt={portraitAlt} />
+        <p>{profile.summary}</p>
+      </section>
+    </>
+  ) : (
+    <section class="page-heading home-about website-home">
       <img src={portraitSrc} alt={portraitAlt} />
       <p>{profile.summary}</p>
     </section>
-  </>
-) : (
-  <section class="page-heading home-about website-home">
-    <img src={portraitSrc} alt={portraitAlt} />
-    <p>{profile.summary}</p>
-  </section>
-)}
+  )
+}

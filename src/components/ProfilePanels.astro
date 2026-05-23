@@ -24,7 +24,9 @@ const { className } = Astro.props as Props;
             <dt>{group.label}</dt>
             <dd>
               <ul class="chip-list">
-                {group.items.map((item) => <li>{item}</li>)}
+                {group.items.map((item) => (
+                  <li>{item}</li>
+                ))}
               </ul>
             </dd>
           </div>

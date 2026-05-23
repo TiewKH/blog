@@ -19,7 +19,8 @@ function getOsAppForPath(path) {
   if (path === "/blog" || path === "/blog/" || path.startsWith("/archive/")) {
     return `writing&route=${encodeURIComponent(path)}`;
   }
-  if (path.startsWith("/contact/")) return `contact&route=${encodeURIComponent(path)}`;
+  if (path.startsWith("/contact/"))
+    return `contact&route=${encodeURIComponent(path)}`;
   return "";
 }
 
@@ -29,7 +30,11 @@ function applyExternalLinkTargets() {
     if (!href) return;
 
     const url = new URL(href, window.location.href);
-    if (!["http:", "https:"].includes(url.protocol) || url.origin === window.location.origin) return;
+    if (
+      !["http:", "https:"].includes(url.protocol) ||
+      url.origin === window.location.origin
+    )
+      return;
 
     link.target = "_blank";
     link.rel = "noopener noreferrer";
@@ -47,7 +52,7 @@ function resizeLegacyFrame(iframe) {
       body?.offsetHeight || 0,
       documentElement?.scrollHeight || 0,
       documentElement?.offsetHeight || 0,
-      LEGACY_FRAME_MIN_HEIGHT
+      LEGACY_FRAME_MIN_HEIGHT,
     );
 
     iframe.style.height = `${height}px`;
@@ -76,7 +81,9 @@ function applyLegacyFrameSizing() {
 
 function getPreferredMode() {
   try {
-    return normalizeMode(window.sessionStorage.getItem(MODE_PREFERENCE_KEY) || "os");
+    return normalizeMode(
+      window.sessionStorage.getItem(MODE_PREFERENCE_KEY) || "os",
+    );
   } catch {
     return "os";
   }
@@ -98,7 +105,11 @@ function applyMode(mode) {
 
   root.dataset.osAvailable = isOsAvailable ? "true" : "false";
 
-  if (nextMode === "website" && document.body?.classList.contains("home-page") && path !== "/") {
+  if (
+    nextMode === "website" &&
+    document.body?.classList.contains("home-page") &&
+    path !== "/"
+  ) {
     window.location.assign(path);
     return;
   }
@@ -119,9 +130,16 @@ function finishBootSplash() {
   if (!bootSplash || !root.dataset.bootSplash) return;
 
   const randomizedDuration = Number(window.__tiewosBootDurationMs);
-  const duration = root.dataset.bootSplash === "reduced"
-    ? 450
-    : Math.min(2000, Math.max(1000, Number.isFinite(randomizedDuration) ? randomizedDuration : 2000));
+  const duration =
+    root.dataset.bootSplash === "reduced"
+      ? 450
+      : Math.min(
+          2000,
+          Math.max(
+            1000,
+            Number.isFinite(randomizedDuration) ? randomizedDuration : 2000,
+          ),
+        );
 
   window.setTimeout(() => {
     bootSplash.classList.add("is-complete");
@@ -131,9 +149,12 @@ function finishBootSplash() {
       // Storage can be unavailable in hardened browsing contexts.
     }
 
-    window.setTimeout(() => {
-      delete root.dataset.bootSplash;
-    }, root.dataset.bootSplash === "reduced" ? 80 : 260);
+    window.setTimeout(
+      () => {
+        delete root.dataset.bootSplash;
+      },
+      root.dataset.bootSplash === "reduced" ? 80 : 260,
+    );
   }, duration);
 }
 

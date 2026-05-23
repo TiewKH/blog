@@ -3,14 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@9.15.4",
   "scripts": {
-    "dev": "astro dev",
     "build": "astro build",
+    "dev": "astro dev",
+    "format": "prettier \"**/*.{astro,css,js,json,jsonc,md,mjs,ts,yml,yaml}\" --write",
+    "format:check": "prettier \"**/*.{astro,css,js,json,jsonc,md,mjs,ts,yml,yaml}\" --check",
+    "lint": "astro check",
     "preview": "astro preview",
-    "check": "astro check",
+    "sort": "sort-package-json package.json",
+    "test": "pnpm test:reading-time && pnpm test:os",
+    "test:os": "node scripts/verify-os-window-behavior.mjs",
     "test:reading-time": "node scripts/verify-reading-time.mjs",
-    "test:os": "node scripts/verify-os-window-behavior.mjs"
+    "verify": "pnpm lint && pnpm format:check && pnpm test"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.2",
@@ -18,7 +22,12 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
+    "lefthook": "^2.1.8",
     "pagefind": "^1.3.0",
+    "prettier": "^3.8.3",
+    "prettier-plugin-astro": "^0.14.1",
+    "sort-package-json": "^3.6.1",
     "typescript": "^5.9.3"
-  }
+  },
+  "packageManager": "pnpm@9.15.4"
 }

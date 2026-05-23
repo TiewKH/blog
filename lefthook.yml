@@ -1,0 +1,15 @@
+pre-commit:
+  parallel: false
+  jobs:
+    - run: pnpm exec prettier --write {staged_files}
+      glob:
+        - "*.{astro,css,js,json,jsonc,md,mjs,ts,yml,yaml}"
+      stage_fixed: true
+    - run: pnpm exec sort-package-json package.json
+      glob: "package.json"
+      stage_fixed: true
+
+pre-push:
+  parallel: false
+  jobs:
+    - run: pnpm verify

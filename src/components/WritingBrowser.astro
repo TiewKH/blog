@@ -13,33 +13,54 @@ const { posts } = Astro.props as Props;
   <div class="writing-toolbar">
     <label class="search-box">
       <span>Search articles</span>
-      <input type="search" placeholder="Search by title or description" data-post-search />
+      <input
+        type="search"
+        placeholder="Search by title or description"
+        data-post-search
+      />
     </label>
     <p class="writing-count" data-post-count aria-live="polite"></p>
   </div>
 
   <div class="article-table">
-    {posts.map((post) => {
-      const words = articleWordCount(post);
-      const searchable = `${post.data.title} ${post.data.description ?? ""}`.toLowerCase();
-      return (
-        <article class="article-row" data-post-row data-search={searchable}>
-          <div>
-            <h2><a href={getPostHref(post.id)}>{post.data.title}</a></h2>
-            {post.data.description && <p>{post.data.description}</p>}
-          </div>
-          <div class="article-meta">
-            <time datetime={post.data.date.toISOString()}>{post.data.date.toLocaleDateString("en", { month: "short", day: "numeric", year: "numeric" })}</time>
-            <span>{readingTime(words)} min read</span>
-          </div>
-        </article>
-      );
-    })}
+    {
+      posts.map((post) => {
+        const words = articleWordCount(post);
+        const searchable =
+          `${post.data.title} ${post.data.description ?? ""}`.toLowerCase();
+        return (
+          <article class="article-row" data-post-row data-search={searchable}>
+            <div>
+              <h2>
+                <a href={getPostHref(post.id)}>{post.data.title}</a>
+              </h2>
+              {post.data.description && <p>{post.data.description}</p>}
+            </div>
+            <div class="article-meta">
+              <time datetime={post.data.date.toISOString()}>
+                {post.data.date.toLocaleDateString("en", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+              </time>
+              <span>{readingTime(words)} min read</span>
+            </div>
+          </article>
+        );
+      })
+    }
   </div>
 
-  <p class="article-empty" data-post-empty hidden>No articles match your search.</p>
+  <p class="article-empty" data-post-empty hidden>
+    No articles match your search.
+  </p>
 
-  <nav class="pagination" aria-label="Blog post pagination" data-post-pagination>
+  <nav
+    class="pagination"
+    aria-label="Blog post pagination"
+    data-post-pagination
+  >
     <button type="button" data-page-prev>Previous</button>
     <div class="pagination-pages" data-page-list></div>
     <button type="button" data-page-next>Next</button>
@@ -47,27 +68,35 @@ const { posts } = Astro.props as Props;
 </section>
 
 <script>
-  // @ts-nocheck
-  const writingBrowsers = [...document.querySelectorAll(".writing-browser")];
+  const writingBrowsers = [
+    ...document.querySelectorAll<HTMLElement>(".writing-browser"),
+  ];
 
   writingBrowsers.forEach((browser) => {
-    const search = browser.querySelector("[data-post-search]");
-    const rows = [...browser.querySelectorAll("[data-post-row]")];
-    const count = browser.querySelector("[data-post-count]");
-    const empty = browser.querySelector("[data-post-empty]");
-    const pagination = browser.querySelector("[data-post-pagination]");
-    const pageList = browser.querySelector("[data-page-list]");
-    const prevButton = browser.querySelector("[data-page-prev]");
-    const nextButton = browser.querySelector("[data-page-next]");
+    const search =
+      browser.querySelector<HTMLInputElement>("[data-post-search]");
+    const rows = [...browser.querySelectorAll<HTMLElement>("[data-post-row]")];
+    const count = browser.querySelector<HTMLElement>("[data-post-count]");
+    const empty = browser.querySelector<HTMLElement>("[data-post-empty]");
+    const pagination = browser.querySelector<HTMLElement>(
+      "[data-post-pagination]",
+    );
+    const pageList = browser.querySelector<HTMLElement>("[data-page-list]");
+    const prevButton =
+      browser.querySelector<HTMLButtonElement>("[data-page-prev]");
+    const nextButton =
+      browser.querySelector<HTMLButtonElement>("[data-page-next]");
     const pageSize = 6;
     let currentPage = 1;
 
     function matchingRows() {
       const query = search?.value?.toLowerCase() ?? "";
-      return rows.filter((row) => row.getAttribute("data-search")?.includes(query));
+      return rows.filter((row) =>
+        row.getAttribute("data-search")?.includes(query),
+      );
     }
 
-    function renderPagination(totalPages) {
+    function renderPagination(totalPages: number) {
       if (!pageList) return;
       pageList.replaceChildren();
       for (let index = 1; index <= totalPages; index += 1) {
@@ -100,9 +129,10 @@ const { posts } = Astro.props as Props;
       if (count) {
         const visibleStart = matches.length === 0 ? 0 : start + 1;
         const visibleEnd = Math.min(end, matches.length);
-        count.textContent = matches.length === rows.length
-          ? `Showing ${visibleStart}-${visibleEnd} of ${rows.length} articles`
-          : `Showing ${visibleStart}-${visibleEnd} of ${matches.length} matches`;
+        count.textContent =
+          matches.length === rows.length
+            ? `Showing ${visibleStart}-${visibleEnd} of ${rows.length} articles`
+            : `Showing ${visibleStart}-${visibleEnd} of ${matches.length} matches`;
       }
 
       if (empty) empty.hidden = matches.length > 0;

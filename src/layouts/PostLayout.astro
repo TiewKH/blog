@@ -19,15 +19,25 @@ const { title, description, date, image, words = 0 } = Astro.props;
       <h1>{title}</h1>
       {description && <p class="lede">{description}</p>}
       <div class="post-meta">
-        <time datetime={date.toISOString()}>{date.toLocaleDateString("en", { month: "long", day: "numeric", year: "numeric" })}</time>
+        <time datetime={date.toISOString()}
+          >{
+            date.toLocaleDateString("en", {
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+            })
+          }</time
+        >
         <span>{readingTime(words)} min read</span>
       </div>
     </header>
-    {image && (
-      <figure class="featured-media">
-        <img src={`/assets/img/${image}`} alt="" />
-      </figure>
-    )}
+    {
+      image && (
+        <figure class="featured-media">
+          <img src={`/assets/img/${image}`} alt="" />
+        </figure>
+      )
+    }
     <div class="post-content">
       <slot />
     </div>
