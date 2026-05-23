@@ -6,13 +6,14 @@ import ProfileIntro from "../components/ProfileIntro.astro";
 import ProfilePanels from "../components/ProfilePanels.astro";
 import SocialIcon from "../components/SocialIcon.astro";
 import WritingSection from "../components/WritingSection.astro";
+import { render } from "astro:content";
 import { articleWordCount, getPosts, getPostHref, readingTime } from "../lib/posts";
 import { profile } from "../lib/profile";
 
 const posts = await getPosts();
 const articleEntries = await Promise.all(
   posts.map(async (post) => {
-    const { Content } = await post.render();
+    const { Content } = await render(post);
     const words = articleWordCount(post);
     return { post, Content, href: getPostHref(post.id), words };
   })
@@ -57,12 +58,12 @@ const articleEntries = await Promise.all(
         </a>
         <a class="desktop-icon external-link" href={profile.github} data-link-kind="external">
           <span class="icon-file social" aria-hidden="true"><SocialIcon icon="github" /></span>
-          <span class="external-indicator" aria-hidden="true">external</span>
+          <span class="external-indicator" aria-hidden="true">ext</span>
           GitHub
         </a>
         <a class="desktop-icon external-link" href={profile.linkedin} data-link-kind="external">
           <span class="icon-file social" aria-hidden="true"><SocialIcon icon="linkedin" /></span>
-          <span class="external-indicator" aria-hidden="true">external</span>
+          <span class="external-indicator" aria-hidden="true">ext</span>
           LinkedIn
         </a>
         <button class="desktop-icon" type="button" data-open-window="contact">
