@@ -1,6 +1,6 @@
-# blog-modern
+# blog
 
-Modern Astro version of the old Jekyll/Long Haul blog.
+Modern Astro version of the old [Long Haul](https://github.com/brianmaierjr/long-haul) blog template and heavily inspired by [Posthog.com](https://github.com/PostHog/posthog.com/tree/master)
 
 ## Write a post
 
@@ -50,4 +50,4 @@ pnpm dev
 pnpm build
 ```
 
-Posts build to `/blog/post-slug/`, matching the original Long Haul URL style.
+Posts build to `/blog/post-slug/`.
