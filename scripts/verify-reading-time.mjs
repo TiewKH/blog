@@ -7,18 +7,22 @@ const post = {
   body: "one two three four",
   data: {
     title: "Title words",
-    description: "Description words here"
-  }
+    description: "Description words here",
+  },
 };
 
 assert.equal(articleWordCount(post), 9);
 
 const qLearningPost = {
-  body: readFileSync("src/content/blog/2019-01-20-qlearning-openaitaxi.md", "utf8"),
+  body: readFileSync(
+    "src/content/blog/2019-01-20-qlearning-openaitaxi.md",
+    "utf8",
+  ),
   data: {
     title: "Reinforcement Learning: Q-Learning with Open AI Taxi",
-    description: "Python code in a Jupyter notebook to implement Q-learning using the Open AI Taxi environment"
-  }
+    description:
+      "Python code in a Jupyter notebook to implement Q-learning using the Open AI Taxi environment",
+  },
 };
 
 assert.ok(articleWordCount(qLearningPost) > 1000);

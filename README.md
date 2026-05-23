@@ -6,7 +6,7 @@ Modern Astro version of the old [Long Haul](https://github.com/brianmaierjr/long
 
 Create a Markdown file in `src/content/blog`.
 
-```md
+````md
 ---
 title: "My New Post"
 date: 2026-05-14
@@ -18,7 +18,9 @@ Write Markdown here.
 ```python
 print("code blocks work")
 ```
-```
+````
+
+````
 
 Use plain `.md` files for the Long Haul-style writing flow. If you need to embed an old notebook or visualization export, use a normal HTML iframe:
 
@@ -35,7 +37,7 @@ Some Markdown prose.
   <iframe src="/legacy/QLearningOpenAITaxi.html" title="Q-Learning notebook" loading="lazy"></iframe>
   <figcaption>Legacy interactive/output embed. <a href="/legacy/QLearningOpenAITaxi.html">Open full page</a></figcaption>
 </figure>
-```
+````
 
 ## Run locally
 

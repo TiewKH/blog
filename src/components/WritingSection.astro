@@ -8,12 +8,17 @@ interface Props {
 }
 
 const { posts, headingClass = "" } = Astro.props as Props;
-const headingClasses = ["page-heading", "writing-heading", headingClass].filter(Boolean).join(" ");
+const headingClasses = ["page-heading", "writing-heading", headingClass]
+  .filter(Boolean)
+  .join(" ");
 ---
 
 <section class={headingClasses}>
   <h1>Technical notes and engineering writeups</h1>
-  <p>Code-heavy posts, data explorations, visualization experiments, and machine learning notes.</p>
+  <p>
+    Code-heavy posts, data explorations, visualization experiments, and machine
+    learning notes.
+  </p>
 </section>
 
 <WritingBrowser posts={posts} />

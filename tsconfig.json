@@ -1,9 +1,4 @@
 {
-  "extends": "astro/tsconfigs/base",
-  "compilerOptions": {
-    "strict": false,
-    "noImplicitAny": false,
-    "strictNullChecks": false
-  },
+  "extends": "astro/tsconfigs/strict",
   "exclude": ["dist", "public", "node_modules"]
 }

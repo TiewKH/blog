@@ -1,0 +1,8 @@
+.astro
+dist
+node_modules
+public/external
+public/legacy
+public/assets
+pnpm-lock.yaml
+src/content/blog

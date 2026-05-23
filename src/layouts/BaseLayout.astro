@@ -9,35 +9,56 @@ interface Props {
   description?: string;
 }
 
-const { title = siteTitle, description = "Machine learning, data systems, fullstack engineering notes, and technical writing." } = Astro.props;
+const {
+  title = siteTitle,
+  description = "Machine learning, data systems, fullstack engineering notes, and technical writing.",
+} = Astro.props;
 const pageTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
 const currentPath = Astro.url.pathname;
 const isHomePage = currentPath === "/";
 const shouldLoadGoogleAnalytics = import.meta.env.PROD;
-const osWindowTitle = currentPath.startsWith("/blog/") ? "Writing.app" : currentPath.startsWith("/about/") ? "README.md" : currentPath.startsWith("/contact/") ? "Contact.app" : "Website.app";
+const googleAnalyticsScript = `
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+  gtag("config", "G-89L9XET7YL");
+`;
+const osWindowTitle = currentPath.startsWith("/blog/")
+  ? "Writing.app"
+  : currentPath.startsWith("/about/")
+    ? "README.md"
+    : currentPath.startsWith("/contact/")
+      ? "Contact.app"
+      : "Website.app";
 const bodyClassName = [
   isHomePage ? "home-page" : undefined,
   !isHomePage ? "os-subpage" : undefined,
-  !isHomePage ? `os-app-${osWindowTitle.replace(/\W+/g, "-").replace(/-$/, "").toLowerCase()}` : undefined
-].filter(Boolean).join(" ");
+  !isHomePage
+    ? `os-app-${osWindowTitle.replace(/\W+/g, "-").replace(/-$/, "").toLowerCase()}`
+    : undefined,
+]
+  .filter(Boolean)
+  .join(" ");
 
 const navItems = [
   { href: "/", label: "About" },
   { href: "/blog/", label: "Writings" },
-  { href: "/contact/", label: "Contact" }
+  { href: "/contact/", label: "Contact" },
 ];
 
 const socialLinks = [
   {
     href: profile.github,
     label: "GitHub",
-    icon: "github"
+    icon: "github",
   },
   {
     href: profile.linkedin,
     label: "LinkedIn",
-    icon: "linkedin"
-  }
+    icon: "linkedin",
+  },
 ] as const;
 ---
 
@@ -48,27 +69,43 @@ const socialLinks = [
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
-    {shouldLoadGoogleAnalytics && (
-      <>
-        <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-89L9XET7YL"></script>
-        <script is:inline>
-          window.dataLayer = window.dataLayer || [];
-          function gtag() {
-            dataLayer.push(arguments);
-          }
-          gtag("js", new Date());
-          gtag("config", "G-89L9XET7YL");
-        </script>
-      </>
-    )}
+    {
+      shouldLoadGoogleAnalytics && (
+        <>
+          <script
+            is:inline
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-89L9XET7YL"
+          />
+          <script is:inline set:html={googleAnalyticsScript} />
+        </>
+      )
+    }
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600&family=Recursive:wght@500;700;900&display=swap" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600&family=Recursive:wght@500;700;900&display=swap"
+    />
     <link rel="icon" href="/assets/img/favicon_io/favicon.ico" sizes="any" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon_io/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon_io/favicon-16x16.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicon_io/apple-touch-icon.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/assets/img/favicon_io/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/assets/img/favicon_io/favicon-16x16.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/assets/img/favicon_io/apple-touch-icon.png"
+    />
     <link rel="manifest" href="/assets/img/favicon_io/site.webmanifest" />
     <meta name="theme-color" content="#f6fbfa" />
     <slot name="head" />
@@ -77,7 +114,9 @@ const socialLinks = [
       (() => {
         const key = "tiewosBootSplashShown:v1";
         const root = document.documentElement;
-        const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const reducedMotion = window.matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
         try {
           if (window.sessionStorage.getItem(key) === "true") return;
           root.dataset.bootSplash = reducedMotion ? "reduced" : "pending";
@@ -92,50 +131,62 @@ const socialLinks = [
   </head>
   <body class={bodyClassName || undefined}>
     <BootSplash />
-    {!isHomePage && (
-      <section class="os-page-shell" aria-label="OS mode">
-        <div class="os-menubar">
-          <a class="os-brand" href="/" aria-label="Home">
-            <img class="os-brand-logo" src="/assets/img/logo.png" alt="" />
-          </a>
-          <a href="/blog/" data-os-app-link="writing">Writing</a>
-          <a href="/" data-os-app-link="readme">About</a>
-          <a href="/contact/" data-os-app-link="contact">Contact</a>
-          <div class="mode-toggle" role="group" aria-label="Display mode">
-            <button type="button" data-mode-choice="website">
-              <span aria-hidden="true">[]</span>
-              Website
-            </button>
-            <button type="button" data-mode-choice="os">
-              <span aria-hidden="true">/</span>
-              OS
-            </button>
+    {
+      !isHomePage && (
+        <section class="os-page-shell" aria-label="OS mode">
+          <div class="os-menubar">
+            <a class="os-brand" href="/" aria-label="Home">
+              <img class="os-brand-logo" src="/assets/img/logo.png" alt="" />
+            </a>
+            <a href="/blog/" data-os-app-link="writing">
+              Writing
+            </a>
+            <a href="/" data-os-app-link="readme">
+              About
+            </a>
+            <a href="/contact/" data-os-app-link="contact">
+              Contact
+            </a>
+            <div class="mode-toggle" role="group" aria-label="Display mode">
+              <button type="button" data-mode-choice="website">
+                <span aria-hidden="true">[]</span>
+                Website
+              </button>
+              <button type="button" data-mode-choice="os">
+                <span aria-hidden="true">/</span>
+                OS
+              </button>
+            </div>
           </div>
-        </div>
-        <aside class="desktop-dock os-page-dock" aria-label="Desktop links">
-          <a class="desktop-icon" href="/blog/" data-os-app-link="writing">
-            <span class="icon-file pen">P</span>
-            Writing.app
-          </a>
-          <a class="desktop-icon" href={profile.resume}>
-            <span class="icon-file pdf">PDF</span>
-            Resume.pdf
-          </a>
-          <a class="desktop-icon" href={profile.github}>
-            <span class="icon-file social" aria-hidden="true"><SocialIcon icon="github" /></span>
-            GitHub
-          </a>
-          <a class="desktop-icon" href={profile.linkedin}>
-            <span class="icon-file social" aria-hidden="true"><SocialIcon icon="linkedin" /></span>
-            LinkedIn
-          </a>
-          <a class="desktop-icon" href="/contact/" data-os-app-link="contact">
-            <span class="icon-file chat">C</span>
-            Contact.app
-          </a>
-        </aside>
-      </section>
-    )}
+          <aside class="desktop-dock os-page-dock" aria-label="Desktop links">
+            <a class="desktop-icon" href="/blog/" data-os-app-link="writing">
+              <span class="icon-file pen">P</span>
+              Writing.app
+            </a>
+            <a class="desktop-icon" href={profile.resume}>
+              <span class="icon-file pdf">PDF</span>
+              Resume.pdf
+            </a>
+            <a class="desktop-icon" href={profile.github}>
+              <span class="icon-file social" aria-hidden="true">
+                <SocialIcon icon="github" />
+              </span>
+              GitHub
+            </a>
+            <a class="desktop-icon" href={profile.linkedin}>
+              <span class="icon-file social" aria-hidden="true">
+                <SocialIcon icon="linkedin" />
+              </span>
+              LinkedIn
+            </a>
+            <a class="desktop-icon" href="/contact/" data-os-app-link="contact">
+              <span class="icon-file chat">C</span>
+              Contact.app
+            </a>
+          </aside>
+        </section>
+      )
+    }
     <header class="site-header">
       <a class="brand" href="/" aria-label="Home">
         <span class="brand-mark">
@@ -147,11 +198,24 @@ const socialLinks = [
         </span>
       </a>
       <nav aria-label="Primary navigation">
-        {navItems.map((item) => (
-          <a href={item.href} aria-current={(item.href === "/" ? currentPath === "/" || currentPath.startsWith("/about/") : currentPath.startsWith(item.href)) ? "page" : undefined}>
-            {item.label}
-          </a>
-        ))}
+        {
+          navItems.map((item) => (
+            <a
+              href={item.href}
+              aria-current={
+                (
+                  item.href === "/"
+                    ? currentPath === "/" || currentPath.startsWith("/about/")
+                    : currentPath.startsWith(item.href)
+                )
+                  ? "page"
+                  : undefined
+              }
+            >
+              {item.label}
+            </a>
+          ))
+        }
       </nav>
       <div class="mode-toggle" role="group" aria-label="Display mode">
         <button type="button" data-mode-choice="website">
@@ -169,11 +233,18 @@ const socialLinks = [
     </main>
     <footer class="site-footer">
       <div class="footer-links" aria-label="Social links">
-        {socialLinks.map((link) => (
-          <a class="icon-link" href={link.href} aria-label={link.label} title={link.label}>
-            <SocialIcon icon={link.icon} />
-          </a>
-        ))}
+        {
+          socialLinks.map((link) => (
+            <a
+              class="icon-link"
+              href={link.href}
+              aria-label={link.label}
+              title={link.label}
+            >
+              <SocialIcon icon={link.icon} />
+            </a>
+          ))
+        }
       </div>
     </footer>
   </body>

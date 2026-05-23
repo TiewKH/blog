@@ -7,7 +7,12 @@ import ProfilePanels from "../components/ProfilePanels.astro";
 import SocialIcon from "../components/SocialIcon.astro";
 import WritingSection from "../components/WritingSection.astro";
 import { render } from "astro:content";
-import { articleWordCount, getPosts, getPostHref, readingTime } from "../lib/posts";
+import {
+  articleWordCount,
+  getPosts,
+  getPostHref,
+  readingTime,
+} from "../lib/posts";
 import { profile } from "../lib/profile";
 
 const posts = await getPosts();
@@ -16,7 +21,7 @@ const articleEntries = await Promise.all(
     const { Content } = await render(post);
     const words = articleWordCount(post);
     return { post, Content, href: getPostHref(post.id), words };
-  })
+  }),
 );
 ---
 
@@ -43,7 +48,11 @@ const articleEntries = await Promise.all(
 
     <div class="desktop-grid">
       <aside class="desktop-dock" aria-label="OS apps">
-        <button class="desktop-icon active" type="button" data-open-window="readme">
+        <button
+          class="desktop-icon active"
+          type="button"
+          data-open-window="readme"
+        >
           <span class="icon-file">M</span>
           README.md
         </button>
@@ -51,18 +60,34 @@ const articleEntries = await Promise.all(
           <span class="icon-file pen">P</span>
           Writing.app
         </button>
-        <a class="desktop-icon external-link" href={profile.resume} data-link-kind="external">
+        <a
+          class="desktop-icon external-link"
+          href={profile.resume}
+          data-link-kind="external"
+        >
           <span class="icon-file pdf">PDF</span>
           <span class="external-indicator" aria-hidden="true">open</span>
           Resume.pdf
         </a>
-        <a class="desktop-icon external-link" href={profile.github} data-link-kind="external">
-          <span class="icon-file social" aria-hidden="true"><SocialIcon icon="github" /></span>
+        <a
+          class="desktop-icon external-link"
+          href={profile.github}
+          data-link-kind="external"
+        >
+          <span class="icon-file social" aria-hidden="true"
+            ><SocialIcon icon="github" /></span
+          >
           <span class="external-indicator" aria-hidden="true">ext</span>
           GitHub
         </a>
-        <a class="desktop-icon external-link" href={profile.linkedin} data-link-kind="external">
-          <span class="icon-file social" aria-hidden="true"><SocialIcon icon="linkedin" /></span>
+        <a
+          class="desktop-icon external-link"
+          href={profile.linkedin}
+          data-link-kind="external"
+        >
+          <span class="icon-file social" aria-hidden="true"
+            ><SocialIcon icon="linkedin" /></span
+          >
           <span class="external-indicator" aria-hidden="true">ext</span>
           LinkedIn
         </a>
@@ -72,92 +97,202 @@ const articleEntries = await Promise.all(
         </button>
       </aside>
 
-      <section class="window-frame readme-window" aria-labelledby="readme-title" data-window-id="readme">
+      <section
+        class="window-frame readme-window"
+        aria-labelledby="readme-title"
+        data-window-id="readme"
+      >
         <header class="window-bar">
           <span class="traffic-lights" aria-hidden="true">
             <span></span><span></span><span></span>
           </span>
           <strong>README.md</strong>
           <span class="window-actions">
-            <button class="window-control" type="button" data-window-action="maximize" aria-label="Maximize README.md">□</button>
-            <button class="window-control close" type="button" data-window-action="close" aria-label="Close README.md">×</button>
+            <button
+              class="window-control"
+              type="button"
+              data-window-action="maximize"
+              aria-label="Maximize README.md">□</button
+            >
+            <button
+              class="window-control close"
+              type="button"
+              data-window-action="close"
+              aria-label="Close README.md">×</button
+            >
           </span>
         </header>
         <div class="window-body readme-body">
           <ProfileIntro variant="readme" titleId="readme-title" />
           <ProfilePanels className="readme-profile-grid" />
-          <ExperienceSection className="readme-experience-section" titleId="readme-experience-title" />
+          <ExperienceSection
+            className="readme-experience-section"
+            titleId="readme-experience-title"
+          />
         </div>
-        <span class="window-resize-handle right" data-window-resize="right" aria-hidden="true"></span>
-        <span class="window-resize-handle bottom" data-window-resize="bottom" aria-hidden="true"></span>
-        <span class="window-resize-handle corner" data-window-resize="corner" aria-hidden="true"></span>
+        <span
+          class="window-resize-handle right"
+          data-window-resize="right"
+          aria-hidden="true"></span>
+        <span
+          class="window-resize-handle bottom"
+          data-window-resize="bottom"
+          aria-hidden="true"></span>
+        <span
+          class="window-resize-handle corner"
+          data-window-resize="corner"
+          aria-hidden="true"></span>
       </section>
 
-      <aside class="window-frame side-window writing-window" aria-label="Writing app preview" data-window-id="writing">
+      <aside
+        class="window-frame side-window writing-window"
+        aria-label="Writing app preview"
+        data-window-id="writing"
+      >
         <header class="window-bar compact">
           <strong>Writing.app</strong>
           <span class="window-actions">
-            <button class="window-control" type="button" data-window-action="maximize" aria-label="Maximize Writing.app">□</button>
-            <button class="window-control close" type="button" data-window-action="close" aria-label="Close Writing.app">×</button>
+            <button
+              class="window-control"
+              type="button"
+              data-window-action="maximize"
+              aria-label="Maximize Writing.app">□</button
+            >
+            <button
+              class="window-control close"
+              type="button"
+              data-window-action="close"
+              aria-label="Close Writing.app">×</button
+            >
           </span>
         </header>
         <div class="window-body writing-app-body">
           <WritingSection posts={posts} headingClass="window-writing-heading" />
         </div>
-        <span class="window-resize-handle right" data-window-resize="right" aria-hidden="true"></span>
-        <span class="window-resize-handle bottom" data-window-resize="bottom" aria-hidden="true"></span>
-        <span class="window-resize-handle corner" data-window-resize="corner" aria-hidden="true"></span>
+        <span
+          class="window-resize-handle right"
+          data-window-resize="right"
+          aria-hidden="true"></span>
+        <span
+          class="window-resize-handle bottom"
+          data-window-resize="bottom"
+          aria-hidden="true"></span>
+        <span
+          class="window-resize-handle corner"
+          data-window-resize="corner"
+          aria-hidden="true"></span>
       </aside>
 
-      <aside class="window-frame article-window" aria-label="Article reader" data-window-id="article" data-article-reader>
+      <aside
+        class="window-frame article-window"
+        aria-label="Article reader"
+        data-window-id="article"
+        data-article-reader
+      >
         <header class="window-bar compact">
           <strong data-article-window-title>Article.md</strong>
           <span class="window-actions">
-            <button class="window-control" type="button" data-window-action="maximize" aria-label="Maximize Article.md">[]</button>
-            <button class="window-control close" type="button" data-window-action="close" aria-label="Close Article.md">X</button>
+            <button
+              class="window-control"
+              type="button"
+              data-window-action="maximize"
+              aria-label="Maximize Article.md">[]</button
+            >
+            <button
+              class="window-control close"
+              type="button"
+              data-window-action="close"
+              aria-label="Close Article.md">X</button
+            >
           </span>
         </header>
         <div class="window-body article-window-body">
-          {articleEntries.map(({ post, Content, href, words }) => (
-            <article class="post-shell article-window-content" data-article-content={href} hidden>
-              <header class="post-hero">
-                <h1>{post.data.title}</h1>
-                {post.data.description && <p class="lede">{post.data.description}</p>}
-                <div class="post-meta">
-                  <time datetime={post.data.date.toISOString()}>{post.data.date.toLocaleDateString("en", { month: "long", day: "numeric", year: "numeric" })}</time>
-                  <span>{readingTime(words)} min read</span>
+          {
+            articleEntries.map(({ post, Content, href, words }) => (
+              <article
+                class="post-shell article-window-content"
+                data-article-content={href}
+                hidden
+              >
+                <header class="post-hero">
+                  <h1>{post.data.title}</h1>
+                  {post.data.description && (
+                    <p class="lede">{post.data.description}</p>
+                  )}
+                  <div class="post-meta">
+                    <time datetime={post.data.date.toISOString()}>
+                      {post.data.date.toLocaleDateString("en", {
+                        month: "long",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
+                    </time>
+                    <span>{readingTime(words)} min read</span>
+                  </div>
+                </header>
+                {post.data.image && (
+                  <figure class="featured-media">
+                    <img src={`/assets/img/${post.data.image}`} alt="" />
+                  </figure>
+                )}
+                <div class="post-content">
+                  <Content />
                 </div>
-              </header>
-              {post.data.image && (
-                <figure class="featured-media">
-                  <img src={`/assets/img/${post.data.image}`} alt="" />
-                </figure>
-              )}
-              <div class="post-content">
-                <Content />
-              </div>
-            </article>
-          ))}
+              </article>
+            ))
+          }
         </div>
-        <span class="window-resize-handle right" data-window-resize="right" aria-hidden="true"></span>
-        <span class="window-resize-handle bottom" data-window-resize="bottom" aria-hidden="true"></span>
-        <span class="window-resize-handle corner" data-window-resize="corner" aria-hidden="true"></span>
+        <span
+          class="window-resize-handle right"
+          data-window-resize="right"
+          aria-hidden="true"></span>
+        <span
+          class="window-resize-handle bottom"
+          data-window-resize="bottom"
+          aria-hidden="true"></span>
+        <span
+          class="window-resize-handle corner"
+          data-window-resize="corner"
+          aria-hidden="true"></span>
       </aside>
 
-      <aside class="window-frame contact-window" aria-label="Contact app" data-window-id="contact">
+      <aside
+        class="window-frame contact-window"
+        aria-label="Contact app"
+        data-window-id="contact"
+      >
         <header class="window-bar compact">
           <strong>Contact.app</strong>
           <span class="window-actions">
-            <button class="window-control" type="button" data-window-action="maximize" aria-label="Maximize Contact.app">â–¡</button>
-            <button class="window-control close" type="button" data-window-action="close" aria-label="Close Contact.app">X</button>
+            <button
+              class="window-control"
+              type="button"
+              data-window-action="maximize"
+              aria-label="Maximize Contact.app">â–¡</button
+            >
+            <button
+              class="window-control close"
+              type="button"
+              data-window-action="close"
+              aria-label="Close Contact.app">X</button
+            >
           </span>
         </header>
         <div class="window-body">
           <ContactSection className="contact-window-layout" idPrefix="os" />
         </div>
-        <span class="window-resize-handle right" data-window-resize="right" aria-hidden="true"></span>
-        <span class="window-resize-handle bottom" data-window-resize="bottom" aria-hidden="true"></span>
-        <span class="window-resize-handle corner" data-window-resize="corner" aria-hidden="true"></span>
+        <span
+          class="window-resize-handle right"
+          data-window-resize="right"
+          aria-hidden="true"></span>
+        <span
+          class="window-resize-handle bottom"
+          data-window-resize="bottom"
+          aria-hidden="true"></span>
+        <span
+          class="window-resize-handle corner"
+          data-window-resize="corner"
+          aria-hidden="true"></span>
       </aside>
 
       <div class="snap-indicator" data-snap-indicator hidden></div>
@@ -166,624 +301,12 @@ const articleEntries = await Promise.all(
 
   <ProfileIntro variant="website" />
   <ProfilePanels className="profile-grid website-home" />
-  <ExperienceSection className="experience-section website-home" titleId="experience-title" />
+  <ExperienceSection
+    className="experience-section website-home"
+    titleId="experience-title"
+  />
 
   <script>
-    // @ts-nocheck
-    const workspace = document.querySelector(".desktop-grid");
-    const windows = [...document.querySelectorAll("[data-window-id]")];
-    const dockButtons = [...document.querySelectorAll("[data-open-window]")];
-    const articleContents = [...document.querySelectorAll("[data-article-content]")];
-    const articleWindowTitle = document.querySelector("[data-article-window-title]");
-    const snapIndicator = document.querySelector("[data-snap-indicator]");
-    const storageKey = "tiewosWindowLayout:v7";
-    const windowStateStorage = window.sessionStorage;
-    const desktopMedia = window.matchMedia("(min-width: 768px)");
-    const closeAnimationMs = 180;
-    const snapThreshold = -50;
-    const minWindowSize = { width: 320, height: 240 };
-    const windowRoutes = {
-      readme: "/",
-      writing: "/blog/",
-      contact: "/contact/"
-    };
-    const defaultState = {
-      readme: { x: 80, y: 42, width: 860, height: 660, z: 4, closed: false, centered: true },
-      writing: { x: 0, y: 32, width: 980, height: 660, z: 2, closed: true, alignRightPx: 24 },
-      article: { x: 118, y: 24, width: 980, height: 720, z: 4, closed: true },
-      contact: { x: 0, y: 96, width: 760, height: 620, z: 1, closed: true, alignRightPx: 72 }
-    };
-    const initialParams = new URLSearchParams(window.location.search);
-    const initialApp = initialParams.get("app");
-    const initialArticle = initialParams.get("article");
-    const initialRoute = initialParams.get("route");
-    let focusedId = defaultState[initialApp] ? initialApp : "readme";
-    let activeArticlePath = "";
-    let windowState = closeArticleWindowWithoutRoute(readState());
-
-    function readState() {
-      try {
-        const saved = JSON.parse(windowStateStorage.getItem(storageKey) || "{}");
-        return Object.fromEntries(
-          Object.keys(defaultState).map((id) => [
-            id,
-            { ...getDefaultState(id), ...(saved[id] || {}), needsLayout: !saved[id] }
-          ])
-        );
-      } catch {
-        return Object.fromEntries(Object.keys(defaultState).map((id) => [id, { ...getDefaultState(id), needsLayout: true }]));
-      }
-    }
-
-    function saveState() {
-      windowStateStorage.setItem(storageKey, JSON.stringify(windowState));
-    }
-
-    function isArticleRoute(path) {
-      return path.startsWith("/blog/") && path !== "/blog/";
-    }
-
-    function closeArticleWindowWithoutRoute(state) {
-      if (initialArticle || isArticleRoute(window.location.pathname) || !state.article) return state;
-      state.article = { ...state.article, closed: true, maximized: false };
-      return state;
-    }
-
-    function clamp(value, min, max) {
-      return Math.min(Math.max(value, min), Math.max(min, max));
-    }
-
-    function canUseDesktop() {
-      return document.documentElement.dataset.mode === "os" && desktopMedia.matches && workspace;
-    }
-
-    function getWorkspaceSize() {
-      return {
-        width: workspace.clientWidth,
-        height: workspace.clientHeight
-      };
-    }
-
-    function getBounds(width, height) {
-      const desktop = getWorkspaceSize();
-      return {
-        maxX: Math.max(0, desktop.width - width),
-        maxY: Math.max(0, desktop.height - height)
-      };
-    }
-
-    function getDefaultState(id) {
-      const workspaceRect = workspace.getBoundingClientRect();
-      const defaults = { ...defaultState[id] };
-      if (defaults.alignRight !== undefined) {
-        defaults.x = workspaceRect.width - defaults.width - workspaceRect.width * defaults.alignRight;
-      }
-      if (defaults.alignRightPx !== undefined) {
-        defaults.x = workspaceRect.width - defaults.width - defaults.alignRightPx;
-      }
-      if (defaults.centered) {
-        defaults.x = (workspaceRect.width - defaults.width) / 2;
-        defaults.y = (workspaceRect.height - defaults.height) / 2;
-      }
-      const bounds = getBounds(defaults.width, defaults.height);
-      return {
-        ...defaults,
-        x: clamp(defaults.x, 0, bounds.maxX),
-        y: clamp(defaults.y, 0, bounds.maxY)
-      };
-    }
-
-    function updateDockState() {
-      dockButtons.forEach((button) => {
-        const id = button.dataset.openWindow;
-        const isOpen = windowState[id] && !windowState[id].closed;
-        button.classList.toggle("active", isOpen);
-        button.setAttribute("aria-pressed", String(isOpen));
-      });
-    }
-
-    function normalizeZOrder(nextFocusedId = focusedId) {
-      const openStates = Object.entries(windowState)
-        .filter(([, state]) => !state.closed)
-        .sort((a, b) => (a[1].z || 0) - (b[1].z || 0));
-
-      openStates.forEach(([id], index) => {
-        windowState[id].z = index + 1;
-      });
-
-      if (windowState[nextFocusedId] && !windowState[nextFocusedId].closed) {
-        const top = Math.max(1, openStates.length);
-        Object.entries(windowState).forEach(([id, state]) => {
-          if (id === nextFocusedId || state.closed || state.z < windowState[nextFocusedId].z) return;
-          state.z = Math.max(1, state.z - 1);
-        });
-        windowState[nextFocusedId].z = top;
-        focusedId = nextFocusedId;
-      }
-    }
-
-    function focusWindow(id, options = {}) {
-      if (!windowState[id] || windowState[id].closed) return;
-      normalizeZOrder(id);
-      renderWindows();
-      saveState();
-      routeWindowFocus(id, options);
-    }
-
-    function setWindowGeometry(id, updates) {
-      const current = windowState[id];
-      const width = Math.max(minWindowSize.width, updates.width ?? current.width);
-      const height = Math.max(minWindowSize.height, updates.height ?? current.height);
-      const bounds = getBounds(width, height);
-      windowState[id] = {
-        ...current,
-        ...updates,
-        width: Math.round(width),
-        height: Math.round(height),
-        x: Math.round(clamp(updates.x ?? current.x, 0, bounds.maxX)),
-        y: Math.round(clamp(updates.y ?? current.y, 0, bounds.maxY))
-      };
-    }
-
-    function maximizeWindow(id) {
-      const current = windowState[id];
-      if (!current || current.closed) return;
-
-      if (current.maximized) {
-        const previous = current.previous || getDefaultState(id);
-        setWindowGeometry(id, {
-          ...previous,
-          previous: undefined,
-          maximized: false
-        });
-      } else {
-        const desktop = getWorkspaceSize();
-        windowState[id].previous = {
-          x: current.x,
-          y: current.y,
-          width: current.width,
-          height: current.height
-        };
-        setWindowGeometry(id, {
-          x: 0,
-          y: 0,
-          width: desktop.width,
-          height: desktop.height,
-          maximized: true
-        });
-      }
-
-      focusWindow(id);
-    }
-
-    function resizeToPostHogDefault(id) {
-      const desktop = getWorkspaceSize();
-      const width = Math.min(Math.round(window.innerWidth * 0.9), desktop.width);
-      const height = Math.min(Math.round(window.innerHeight * 0.9), desktop.height);
-      const x = Math.round((desktop.width - width) / 2);
-      const y = Math.round((desktop.height - height) / 2);
-      setWindowGeometry(id, { x, y, width, height, maximized: false });
-      focusWindow(id);
-    }
-
-    function getRouteForWindow(id) {
-      if (id === "article") return activeArticlePath;
-      return windowRoutes[id] || "";
-    }
-
-    function pushRoute(route, options = {}) {
-      if (options.updateUrl === false || !route || window.location.pathname === route) return;
-      history.pushState(null, "", route);
-    }
-
-    function routeWindowFocus(id, options = {}) {
-      pushRoute(getRouteForWindow(id), options);
-    }
-
-    function closeWindow(id, options = {}) {
-      const win = document.querySelector(`[data-window-id="${id}"]`);
-      if (!win || !windowState[id]) return;
-      win.classList.add("is-closing");
-      window.setTimeout(() => {
-        windowState[id].closed = true;
-        windowState[id].maximized = false;
-        const nextOpen = Object.entries(windowState)
-          .filter(([windowId, state]) => windowId !== id && !state.closed)
-          .sort((a, b) => (b[1].z || 0) - (a[1].z || 0))[0];
-        if (nextOpen) focusedId = nextOpen[0];
-        renderWindows();
-        saveState();
-        const route = getRouteForWindow(id);
-        if (id === "article" && options.updateUrl !== false && window.location.pathname.startsWith("/blog/")) {
-          history.pushState(null, "", "/");
-        } else if (route && route !== "/" && options.updateUrl !== false && window.location.pathname === route) {
-          history.pushState(null, "", "/");
-        }
-      }, closeAnimationMs);
-    }
-
-    function openWindow(id, options = {}) {
-      if (!windowState[id]) return;
-      if (windowState[id].closed) {
-        const defaults = getDefaultState(id);
-        windowState[id] = {
-          ...defaults,
-          previous: windowState[id].previous,
-          closed: false
-        };
-      }
-      focusWindow(id, options);
-    }
-
-    function openRoutedWindow(id, options = {}) {
-      openWindow(id, options);
-    }
-
-    function openInitialApp() {
-      if (initialArticle) {
-        openWindow("writing", { updateUrl: false });
-        openArticleWindow(initialArticle, { updateUrl: false });
-      } else if (defaultState[initialApp]) {
-        openWindow(initialApp, { updateUrl: false });
-      } else {
-        syncWindowForPath(window.location.pathname);
-        return;
-      }
-      history.replaceState(null, "", initialRoute || window.location.pathname);
-    }
-
-    function normalizeArticleHref(href) {
-      return new URL(href, window.location.origin).pathname;
-    }
-
-    function setActiveArticle(href) {
-      const articlePath = normalizeArticleHref(href);
-      let activeTitle = "Article.md";
-      let matched = false;
-      articleContents.forEach((article) => {
-        const isActive = normalizeArticleHref(article.dataset.articleContent) === articlePath;
-        article.hidden = !isActive;
-        if (isActive) {
-          matched = true;
-          activeArticlePath = articlePath;
-          activeTitle = `${article.querySelector("h1")?.textContent?.trim() || "Article"}.md`;
-          document.querySelector(".article-window-body")?.scrollTo?.(0, 0);
-        }
-      });
-      if (articleWindowTitle) articleWindowTitle.textContent = activeTitle;
-      return matched;
-    }
-
-    function openArticleWindow(href, options = {}) {
-      if (!setActiveArticle(href)) {
-        window.location.href = href;
-        return;
-      }
-      openWindow("article");
-      const articlePath = normalizeArticleHref(href);
-      if (options.updateUrl !== false && window.location.pathname !== articlePath) {
-        history.pushState(null, "", articlePath);
-      }
-    }
-
-    function syncWindowForPath(path) {
-      if (path.startsWith("/blog/") && path !== "/blog/") {
-        openWindow("writing", { updateUrl: false });
-        openArticleWindow(path, { updateUrl: false });
-        return;
-      }
-
-      if (path === "/blog" || path === "/blog/" || path.startsWith("/archive/")) {
-        openWindow("writing", { updateUrl: false });
-        return;
-      }
-
-      if (path.startsWith("/contact/")) {
-        openWindow("contact", { updateUrl: false });
-        return;
-      }
-
-      openWindow("readme", { updateUrl: false });
-    }
-
-    function snapWindow(id, side) {
-      if (!windowState[id] || windowState[id].closed) return;
-      const desktop = getWorkspaceSize();
-      const width = Math.round(desktop.width / 2);
-      windowState[id].previous = {
-        x: windowState[id].x,
-        y: windowState[id].y,
-        width: windowState[id].width,
-        height: windowState[id].height
-      };
-      setWindowGeometry(id, {
-        x: side === "left" ? 0 : width,
-        y: 0,
-        width,
-        height: desktop.height,
-        maximized: false
-      });
-      focusWindow(id);
-    }
-
-    function renderSnapIndicator(side) {
-      if (!snapIndicator) return;
-      if (!side) {
-        snapIndicator.hidden = true;
-        snapIndicator.dataset.side = "";
-        return;
-      }
-      snapIndicator.hidden = false;
-      snapIndicator.dataset.side = side;
-    }
-
-    function applyResponsiveWindowState(win, width) {
-      win.classList.toggle("is-narrow", width < 700);
-    }
-
-    function renderWindows() {
-      if (!canUseDesktop()) {
-        windows.forEach((win) => {
-          win.hidden = false;
-          win.classList.remove("is-positioned", "is-focused", "is-dragging", "is-closing", "is-maximized");
-          win.classList.remove("is-narrow");
-          win.style.left = "";
-          win.style.top = "";
-          win.style.width = "";
-          win.style.height = "";
-          win.style.zIndex = "";
-          win.style.right = "";
-          win.style.marginTop = "";
-        });
-        renderSnapIndicator(null);
-        updateDockState();
-        return;
-      }
-
-      windows.forEach((win) => {
-        const id = win.dataset.windowId;
-        const state = windowState[id]?.needsLayout ? { ...getDefaultState(id), closed: windowState[id].closed } : (windowState[id] || getDefaultState(id));
-        const height = Math.min(state.height, getWorkspaceSize().height);
-        const width = Math.min(state.width, getWorkspaceSize().width);
-        const bounds = getBounds(width, height);
-        const x = clamp(state.x, 0, bounds.maxX);
-        const y = clamp(state.y, 0, bounds.maxY);
-
-        win.hidden = Boolean(state.closed);
-        win.classList.toggle("is-focused", id === focusedId && !state.closed);
-        win.classList.toggle("is-maximized", Boolean(state.maximized));
-        applyResponsiveWindowState(win, width);
-        win.classList.remove("is-closing");
-        win.style.left = `${Math.round(x)}px`;
-        win.style.top = `${Math.round(y)}px`;
-        win.style.width = `${Math.round(width)}px`;
-        win.style.height = `${Math.round(height)}px`;
-        win.style.right = "auto";
-        win.style.marginTop = "0";
-        win.style.zIndex = String(20 + (state.z || 1));
-        win.classList.add("is-positioned");
-
-        windowState[id] = { ...state, needsLayout: false, x: Math.round(x), y: Math.round(y), width: Math.round(width), height: Math.round(height) };
-        const maximizeButton = win.querySelector('[data-window-action="maximize"]');
-        if (maximizeButton) {
-          maximizeButton.setAttribute("aria-label", state.maximized ? `Restore ${win.querySelector(".window-bar strong")?.textContent}` : `Maximize ${win.querySelector(".window-bar strong")?.textContent}`);
-          maximizeButton.textContent = state.maximized ? "⧉" : "□";
-        }
-      });
-      updateDockState();
-    }
-
-    function startWindowResize(win, id, edge, event) {
-      if (!canUseDesktop() || event.button !== 0 || !windowState[id] || windowState[id].closed) return;
-      const start = { ...windowState[id] };
-      const workspaceRect = workspace.getBoundingClientRect();
-      const handle = event.currentTarget;
-      let nextGeometry = { ...start };
-      let animationFrame = 0;
-      focusWindow(id);
-      win.classList.add("is-resizing");
-      document.body.dataset.windowInteraction = "resize";
-      handle.setPointerCapture?.(event.pointerId);
-
-      const paint = () => {
-        animationFrame = 0;
-        setWindowGeometry(id, nextGeometry);
-        const state = windowState[id];
-        applyResponsiveWindowState(win, state.width);
-        win.style.left = `${state.x}px`;
-        win.style.top = `${state.y}px`;
-        win.style.width = `${state.width}px`;
-        win.style.height = `${state.height}px`;
-      };
-
-      const schedulePaint = () => {
-        if (animationFrame) return;
-        animationFrame = requestAnimationFrame(paint);
-      };
-
-      const move = (moveEvent) => {
-        const deltaX = moveEvent.clientX - event.clientX;
-        const deltaY = moveEvent.clientY - event.clientY;
-        const updates = { maximized: false };
-
-        if (edge === "right" || edge === "corner") {
-          updates.width = clamp(start.width + deltaX, minWindowSize.width, workspaceRect.width - start.x);
-        }
-
-        if (edge === "bottom" || edge === "corner") {
-          updates.height = clamp(start.height + deltaY, minWindowSize.height, workspaceRect.height - start.y);
-        }
-
-        nextGeometry = { ...start, ...updates };
-        schedulePaint();
-      };
-
-      const end = () => {
-        if (animationFrame) {
-          cancelAnimationFrame(animationFrame);
-          paint();
-        }
-        win.classList.remove("is-resizing");
-        delete document.body.dataset.windowInteraction;
-        handle.releasePointerCapture?.(event.pointerId);
-        renderWindows();
-        saveState();
-        document.removeEventListener("pointermove", move);
-        document.removeEventListener("pointerup", end);
-        document.removeEventListener("pointercancel", end);
-      };
-
-      document.addEventListener("pointermove", move);
-      document.addEventListener("pointerup", end);
-      document.addEventListener("pointercancel", end);
-    }
-
-    function installResizeBehavior(win, id) {
-      win.querySelectorAll("[data-window-resize]").forEach((handle) => {
-        handle.addEventListener("pointerdown", (event) => {
-          event.preventDefault();
-          event.stopPropagation();
-          startWindowResize(win, id, handle.dataset.windowResize, event);
-        });
-      });
-    }
-
-    function installWindowBehavior(win) {
-      const id = win.dataset.windowId;
-      const handle = win.querySelector(".window-bar");
-      if (!handle) return;
-
-      win.addEventListener("pointerdown", () => focusWindow(id));
-      handle.addEventListener("dblclick", () => {
-        resizeToPostHogDefault(id);
-        saveState();
-      });
-
-      handle.addEventListener("pointerdown", (event) => {
-        if (!canUseDesktop() || event.button !== 0 || windowState[id]?.maximized) return;
-        if (event.target.closest("a, button, input, textarea, select")) return;
-
-        const workspaceRect = workspace.getBoundingClientRect();
-        const winRect = win.getBoundingClientRect();
-        const offsetX = event.clientX - winRect.left;
-        const offsetY = event.clientY - winRect.top;
-        let pendingSnap = null;
-        let nextGeometry = { ...windowState[id] };
-        let animationFrame = 0;
-        focusWindow(id);
-        win.classList.add("is-dragging");
-        document.body.dataset.windowInteraction = "drag";
-        handle.setPointerCapture?.(event.pointerId);
-
-        const paint = () => {
-          animationFrame = 0;
-          setWindowGeometry(id, nextGeometry);
-          const state = windowState[id];
-          applyResponsiveWindowState(win, state.width);
-          win.style.left = `${state.x}px`;
-          win.style.top = `${state.y}px`;
-        };
-
-        const schedulePaint = () => {
-          if (animationFrame) return;
-          animationFrame = requestAnimationFrame(paint);
-        };
-
-        const move = (moveEvent) => {
-          const nextX = moveEvent.clientX - workspaceRect.left - offsetX;
-          const nextY = moveEvent.clientY - workspaceRect.top - offsetY;
-          const rightOverflow = nextX + windowState[id].width - workspace.clientWidth;
-          pendingSnap = nextX < snapThreshold ? "left" : rightOverflow > Math.abs(snapThreshold) ? "right" : null;
-          renderSnapIndicator(pendingSnap);
-          nextGeometry = { ...windowState[id], x: nextX, y: nextY };
-          schedulePaint();
-        };
-
-        const end = () => {
-          if (animationFrame) {
-            cancelAnimationFrame(animationFrame);
-            paint();
-          }
-          win.classList.remove("is-dragging");
-          if (pendingSnap) snapWindow(id, pendingSnap);
-          renderSnapIndicator(null);
-          delete document.body.dataset.windowInteraction;
-          handle.releasePointerCapture?.(event.pointerId);
-          renderWindows();
-          saveState();
-          document.removeEventListener("pointermove", move);
-          document.removeEventListener("pointerup", end);
-          document.removeEventListener("pointercancel", end);
-        };
-
-        document.addEventListener("pointermove", move);
-        document.addEventListener("pointerup", end);
-        document.addEventListener("pointercancel", end);
-      });
-
-      win.querySelector('[data-window-action="maximize"]')?.addEventListener("click", () => {
-        maximizeWindow(id);
-        saveState();
-      });
-
-      win.querySelector('[data-window-action="close"]')?.addEventListener("click", () => closeWindow(id));
-      installResizeBehavior(win, id);
-    }
-
-    dockButtons.forEach((button) => {
-      button.addEventListener("click", () => openRoutedWindow(button.dataset.openWindow));
-    });
-
-    document.addEventListener("click", (event) => {
-      const link = event.target.closest('a[href^="/blog/"]');
-      if (!link || !canUseDesktop()) return;
-      const articlePath = new URL(link.href).pathname;
-      if (articlePath === "/blog/" || articlePath === "/blog") return;
-      event.preventDefault();
-      openArticleWindow(articlePath);
-    });
-
-    window.addEventListener("popstate", () => {
-      const path = window.location.pathname;
-      if (!path.startsWith("/blog/") && !windowState.article.closed) {
-        closeWindow("article", { updateUrl: false });
-      }
-      syncWindowForPath(path);
-    });
-
-    windows.forEach(installWindowBehavior);
-    window.addEventListener("resize", () => {
-      renderWindows();
-      saveState();
-    });
-    document.querySelectorAll("[data-mode-choice]").forEach((button) => {
-      button.addEventListener("click", () => requestAnimationFrame(renderWindows));
-    });
-    document.addEventListener("keydown", (event) => {
-      if (!canUseDesktop() || !event.shiftKey || event.altKey || event.ctrlKey || event.metaKey) return;
-      if (!focusedId || windowState[focusedId]?.closed) return;
-      if (event.key === "ArrowLeft") {
-        event.preventDefault();
-        snapWindow(focusedId, "left");
-        saveState();
-      }
-      if (event.key === "ArrowRight") {
-        event.preventDefault();
-        snapWindow(focusedId, "right");
-        saveState();
-      }
-      if (event.key === "ArrowUp") {
-        event.preventDefault();
-        maximizeWindow(focusedId);
-        saveState();
-      }
-      if (event.key.toLowerCase() === "w") {
-        event.preventDefault();
-        closeWindow(focusedId);
-      }
-    });
-    normalizeZOrder(focusedId);
-    renderWindows();
-    openInitialApp();
+    import "../scripts/os-window-manager.ts";
   </script>
 </BaseLayout>

@@ -1,28 +1,35 @@
 const stackGroups = [
   {
     label: "Languages",
-    items: ["Python", "Java", "TypeScript", "SQL"]
+    items: ["Python", "Java", "TypeScript", "SQL"],
   },
   {
     label: "Machine Learning",
-    items: ["PyTorch", "PySpark", "pandas", "scikit-learn", "MLflow", "BentoML"]
+    items: [
+      "PyTorch",
+      "PySpark",
+      "pandas",
+      "scikit-learn",
+      "MLflow",
+      "BentoML",
+    ],
   },
   {
     label: "Backend",
-    items: ["FastAPI", "Spring Boot", "Nest.js", "Express.js"]
+    items: ["FastAPI", "Spring Boot", "Nest.js", "Express.js"],
   },
   {
     label: "Frontend",
-    items: ["React", "React Native"]
+    items: ["React", "React Native"],
   },
   {
     label: "Data",
-    items: ["Airflow", "Postgres", "Redis", "Kafka", "BigQuery", "Redshift"]
+    items: ["Airflow", "Postgres", "Redis", "Kafka", "BigQuery", "Redshift"],
   },
   {
     label: "Platform & Infra",
-    items: ["AWS", "GCP", "Docker", "Kubernetes", "Helm", "Terraform", ]
-  }
+    items: ["AWS", "GCP", "Docker", "Kubernetes", "Helm", "Terraform"],
+  },
 ];
 
 export const profile = {
@@ -36,7 +43,7 @@ export const profile = {
   resume: "/assets/docs/Resume.pdf",
   summary:
     "Hi, I'm Kee Hui, a software engineer based in Singapore. I build full-stack applications, recommendation systems, and data & machine learning pipelines.",
-  stackGroups
+  stackGroups,
 };
 
 export const siteTitle = "Kee Hui's Portfolio";
@@ -49,8 +56,7 @@ export const experience = [
     location: "Singapore",
     badge: "OGP",
     icon: "ogp",
-    summary:
-      "Fullstack software engineer building for public good."
+    summary: "Fullstack software engineer building for public good.",
   },
   {
     company: "ShopBack",
@@ -60,7 +66,7 @@ export const experience = [
     badge: "SB",
     icon: "shopback",
     summary:
-      "Developing recommendation systems across 11 countries, maintaining FastAPI and Kafka services handling about 3 million requests per day, and improving P99 latency by 50% through service migration."
+      "Developing recommendation systems across 11 countries, maintaining FastAPI and Kafka services handling about 3 million requests per day, and improving P99 latency by 50% through service migration.",
   },
   {
     company: "MoneyLion",
@@ -70,7 +76,7 @@ export const experience = [
     badge: "ML",
     icon: "moneylion",
     summary:
-      "Integrated Amazon Personalize recommendations, built Kafka Streams interactive query APIs, developed sampling pipelines, and optimized Aurora RDS to S3 exports from hours to minutes."
+      "Integrated Amazon Personalize recommendations, built Kafka Streams interactive query APIs, developed sampling pipelines, and optimized Aurora RDS to S3 exports from hours to minutes.",
   },
   {
     company: "AirAsia",
@@ -80,7 +86,7 @@ export const experience = [
     badge: "AA",
     icon: "airasia",
     summary:
-      "Built customer spending dashboards, deployed Airflow and JupyterHub, moved hundreds of gigabytes across systems, and contributed to experimentation infrastructure with Presto and Metabase."
+      "Built customer spending dashboards, deployed Airflow and JupyterHub, moved hundreds of gigabytes across systems, and contributed to experimentation infrastructure with Presto and Metabase.",
   },
   {
     company: "iFAST Capital",
@@ -90,6 +96,6 @@ export const experience = [
     badge: "iF",
     icon: "ifast",
     summary:
-      "Developed a customer-service chatbot using AngularJS, Spring MVC, Python, and AWS; experimented with BERT, Rasa, GloVe, word2vec, and fastText; and conducted churn analysis with XGBoost, Random Forest, and SHAP."
+      "Developed a customer-service chatbot using AngularJS, Spring MVC, Python, and AWS; experimented with BERT, Rasa, GloVe, word2vec, and fastText; and conducted churn analysis with XGBoost, Random Forest, and SHAP.",
   },
 ] as const;

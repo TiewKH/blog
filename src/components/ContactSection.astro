@@ -17,18 +17,32 @@ const messageId = idPrefix ? `${idPrefix}-contact-message` : "message";
   <div class="contact-copy">
     <h1>Let's talk about code, data, or opportunities.</h1>
     <p>
-      Feel free to contact me about anything related to my posts here, software engineering,
-      data science, machine learning, or career opportunities.
+      Feel free to contact me about anything related to my posts here, software
+      engineering, data science, machine learning, or career opportunities.
     </p>
   </div>
 
-  <form class="contact-form" action={`https://formspree.io/${profile.email}`} method="POST">
-    <input type="hidden" name="_subject" value="New message from tiewkh.github.io" />
+  <form
+    class="contact-form"
+    action={`https://formspree.io/${profile.email}`}
+    method="POST"
+  >
+    <input
+      type="hidden"
+      name="_subject"
+      value="New message from tiewkh.github.io"
+    />
     <label for={nameId}>Name</label>
     <input type="text" id={nameId} name="name" autocomplete="name" required />
 
     <label for={emailId}>Email address</label>
-    <input type="email" id={emailId} name="_replyto" autocomplete="email" required />
+    <input
+      type="email"
+      id={emailId}
+      name="_replyto"
+      autocomplete="email"
+      required
+    />
 
     <label for={messageId}>Message</label>
     <textarea name="message" id={messageId} rows="8" required></textarea>
