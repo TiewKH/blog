@@ -1,6 +1,6 @@
-# blog-modern
+# blog
 
-Modern Astro version of the old Jekyll/Long Haul blog.
+Modern Astro version of the old Jekyll/Long Haul blog and heavily inspired by [Posthog.com](https://github.com/PostHog/posthog.com/tree/master)
 
 ## Write a post
 
