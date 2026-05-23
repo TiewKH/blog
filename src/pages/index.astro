@@ -6,14 +6,14 @@ import ProfileIntro from "../components/ProfileIntro.astro";
 import ProfilePanels from "../components/ProfilePanels.astro";
 import SocialIcon from "../components/SocialIcon.astro";
 import WritingSection from "../components/WritingSection.astro";
-import { getPosts, getPostHref, readingTime } from "../lib/posts";
+import { articleWordCount, getPosts, getPostHref, readingTime } from "../lib/posts";
 import { profile } from "../lib/profile";
 
 const posts = await getPosts();
 const articleEntries = await Promise.all(
   posts.map(async (post) => {
     const { Content } = await post.render();
-    const words = post.body.split(/\s+/).filter(Boolean).length;
+    const words = articleWordCount(post);
     return { post, Content, href: getPostHref(post.id), words };
   })
 );

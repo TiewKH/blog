@@ -21,12 +21,12 @@ const { className, titleId } = Astro.props as Props;
     {experience.map((item) => (
       <article class="experience-row">
         <CompanyIcon icon={item.icon} label={item.company} />
-        <div>
-          <h3>{item.company}</h3>
-          <p>{item.role}</p>
-          <p>{item.period}</p>
+        <div class="experience-details">
+          <p class="experience-company">{item.company}</p>
+          <h3>{item.role}</h3>
+          <p class="experience-period">{item.period}</p>
         </div>
-        <p>{item.summary}</p>
+        <p class="experience-summary">{item.summary}</p>
       </article>
     ))}
   </div>

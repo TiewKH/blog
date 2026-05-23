@@ -1,13 +1,10 @@
 import { getCollection } from "astro:content";
+export { articleWordCount, readingTime } from "./reading-time.js";
 
 export function slugFromId(id: string) {
   return id
     .replace(/\.(md|mdx)$/i, "")
     .replace(/^\d{4}-\d{2}-\d{2}-/, "");
-}
-
-export function readingTime(words: number) {
-  return Math.max(1, Math.ceil(words / 180));
 }
 
 export async function getPosts() {

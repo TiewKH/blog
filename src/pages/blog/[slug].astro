@@ -1,5 +1,5 @@
 ---
-import { getPosts, slugFromId } from "../../lib/posts";
+import { articleWordCount, getPosts, slugFromId } from "../../lib/posts";
 import PostLayout from "../../layouts/PostLayout.astro";
 
 export async function getStaticPaths() {
@@ -12,7 +12,7 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await post.render();
-const words = post.body.split(/\s+/).filter(Boolean).length;
+const words = articleWordCount(post);
 ---
 
 <PostLayout

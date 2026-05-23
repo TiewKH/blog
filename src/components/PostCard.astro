@@ -1,13 +1,13 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import { getPostHref, readingTime } from "../lib/posts";
+import { articleWordCount, getPostHref, readingTime } from "../lib/posts";
 
 interface Props {
   post: CollectionEntry<"blog">;
 }
 
 const { post } = Astro.props;
-const words = post.body.split(/\s+/).filter(Boolean).length;
+const words = articleWordCount(post);
 ---
 
 <article class="post-card">

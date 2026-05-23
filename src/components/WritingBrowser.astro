@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import { getPostHref, readingTime } from "../lib/posts";
+import { articleWordCount, getPostHref, readingTime } from "../lib/posts";
 
 interface Props {
   posts: CollectionEntry<"blog">[];
@@ -20,7 +20,7 @@ const { posts } = Astro.props as Props;
 
   <div class="article-table">
     {posts.map((post) => {
-      const words = post.body.split(/\s+/).filter(Boolean).length;
+      const words = articleWordCount(post);
       const searchable = `${post.data.title} ${post.data.description ?? ""}`.toLowerCase();
       return (
         <article class="article-row" data-post-row data-search={searchable}>

@@ -9,6 +9,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
+    "test:reading-time": "node scripts/verify-reading-time.mjs",
     "test:os": "node scripts/verify-os-window-behavior.mjs"
   },
   "dependencies": {

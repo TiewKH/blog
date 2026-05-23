@@ -1,3 +1,30 @@
+const stackGroups = [
+  {
+    label: "Languages",
+    items: ["Python", "Java", "TypeScript", "SQL"]
+  },
+  {
+    label: "ML & data",
+    items: ["PyTorch", "PySpark", "pandas", "scikit-learn", "MLflow", "BentoML"]
+  },
+  {
+    label: "Backend",
+    items: ["FastAPI", "Spring Boot", "Nest.js", "Express.js"]
+  },
+  {
+    label: "Frontend",
+    items: ["React", "React Native"]
+  },
+  {
+    label: "Data systems",
+    items: ["Airflow", "Postgres", "Redis", "Kafka", "BigQuery", "Redshift"]
+  },
+  {
+    label: "Platform & Infra",
+    items: ["AWS", "GCP", "Docker", "Kubernetes", "Helm", "Terraform", ]
+  }
+];
+
 export const profile = {
   name: "Tiew Kee Hui",
   role: "Senior Software Engineer",
@@ -10,35 +37,7 @@ export const profile = {
   headline: "Building recommendation systems, ML platforms, and reliable data products.",
   summary:
     "Hi, I'm Kee Hui, a software engineer based in Singapore. I build full-stack applications, recommendation systems, and data & machine learning pipelines.",
-  stack: [
-    "Python",
-    "SQL",
-    "Java",
-    "Go",
-    "TypeScript",
-    "PyTorch",
-    "PySpark",
-    "pandas",
-    "scikit-learn",
-    "MLflow",
-    "FastAPI",
-    "BentoML",
-    "Flask",
-    "Spring Boot",
-    "Angular",
-    "Airflow",
-    "Docker",
-    "Kubernetes",
-    "Helm",
-    "Terraform",
-    "Kafka",
-    "GCP",
-    "AWS",
-    "BigQuery",
-    "Redshift",
-    "Postgres",
-    "Redis"
-  ]
+  stackGroups
 };
 
 export const siteTitle = "Kee Hui's Portfolio";
@@ -47,7 +46,7 @@ export const experience = [
   {
     company: "Open Government Products",
     role: "Senior Software Engineer",
-    period: "September 2025 to Now",
+    period: "Sep 2025 - Present",
     location: "Singapore",
     badge: "OGP",
     icon: "ogp",
@@ -57,7 +56,7 @@ export const experience = [
   {
     company: "ShopBack",
     role: "Senior Software Engineer (Machine Learning)",
-    period: "June 2022 to August 2025",
+    period: "Jun 2022 - Aug 2025",
     location: "Singapore",
     badge: "SB",
     icon: "shopback",
@@ -67,7 +66,7 @@ export const experience = [
   {
     company: "MoneyLion",
     role: "AI Engineer",
-    period: "March 2021 to April 2022",
+    period: "Mar 2021 - Apr 2022",
     location: "Kuala Lumpur, Malaysia",
     badge: "ML",
     icon: "moneylion",
@@ -77,7 +76,7 @@ export const experience = [
   {
     company: "AirAsia",
     role: "Data Scientist",
-    period: "September 2019 to February 2021",
+    period: "Sep 2019 - Feb 2021",
     location: "Kuala Lumpur, Malaysia",
     badge: "AA",
     icon: "airasia",
@@ -87,7 +86,7 @@ export const experience = [
   {
     company: "iFAST Capital",
     role: "R&D Software Engineer",
-    period: "September 2018 to August 2019",
+    period: "Sep 2018 - Aug 2019",
     location: "Kuala Lumpur, Malaysia",
     badge: "iF",
     icon: "ifast",
@@ -95,9 +94,3 @@ export const experience = [
       "Developed a customer-service chatbot using AngularJS, Spring MVC, Python, and AWS; experimented with BERT, Rasa, GloVe, word2vec, and fastText; and conducted churn analysis with XGBoost, Random Forest, and SHAP."
   },
 ] as const;
-
-export const focusAreas = [
-  "Full stack",
-  "Recommendation systems",
-  "Data engineering"
-];

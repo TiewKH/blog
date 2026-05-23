@@ -1,5 +1,5 @@
 ---
-import { focusAreas, profile } from "../lib/profile";
+import { profile } from "../lib/profile";
 
 interface Props {
   className: string;
@@ -14,14 +14,22 @@ const { className } = Astro.props as Props;
     <p>
       I am now working at Open Government Products building for public good.
     </p>
-    <ul class="chip-list">
-      {focusAreas.map((area) => <li>{area}</li>)}
-    </ul>
   </article>
   <article class="profile-panel">
     <h2>Technical stack</h2>
-    <ul class="chip-list">
-      {profile.stack.map((item) => <li>{item}</li>)}
-    </ul>
+    <dl class="stack-groups">
+      {
+        profile.stackGroups.map((group) => (
+          <div>
+            <dt>{group.label}</dt>
+            <dd>
+              <ul class="chip-list">
+                {group.items.map((item) => <li>{item}</li>)}
+              </ul>
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
   </article>
 </section>
