@@ -107,6 +107,161 @@ button {
   display: none !important;
 }
 
+@property --boot-progress {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.boot-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: none;
+  place-items: center;
+  padding: clamp(18px, 5vw, 56px);
+  background:
+    radial-gradient(circle at 20% 18%, oklch(0.58 0.12 265 / 0.2), transparent 34%),
+    radial-gradient(circle at 78% 80%, oklch(0.55 0.145 155 / 0.18), transparent 36%),
+    linear-gradient(180deg, oklch(0.15 0.018 225), oklch(0.2 0.026 215));
+  color: oklch(0.94 0.018 130);
+}
+
+html[data-boot-splash] .boot-splash {
+  display: grid;
+}
+
+html[data-boot-splash] body {
+  overflow: hidden;
+}
+
+.boot-splash::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(180deg, transparent 0 6px, oklch(0.94 0.018 130 / 0.035) 6px 7px),
+    linear-gradient(90deg, oklch(0.55 0.145 155 / 0.08), transparent 28%, transparent 72%, oklch(0.64 0.17 35 / 0.08));
+  pointer-events: none;
+}
+
+.boot-panel {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(160px, 0.45fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(28px, 6vw, 72px);
+  width: min(980px, 100%);
+  min-height: min(620px, 78vh);
+  padding: clamp(18px, 4vw, 44px);
+}
+
+.boot-logo-shell {
+  position: relative;
+  display: grid;
+  width: clamp(132px, 24vw, 240px);
+  aspect-ratio: 1;
+  place-items: center;
+  align-self: center;
+  justify-self: center;
+}
+
+.boot-logo-shell img {
+  position: relative;
+  z-index: 2;
+  width: 52%;
+  height: 52%;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 24px oklch(0.08 0.02 230 / 0.45));
+}
+
+.boot-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    conic-gradient(from 0deg, var(--accent) 0 var(--boot-progress), oklch(0.76 0.024 210 / 0.24) var(--boot-progress) 360deg),
+    oklch(0.22 0.025 225);
+  mask: radial-gradient(circle, transparent 0 57%, oklch(0.1 0 0) 58%);
+  animation: boot-ring-progress var(--boot-duration, 2s) cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.boot-copy {
+  align-self: center;
+}
+
+.boot-kicker,
+.boot-line,
+.boot-checks {
+  font-family: var(--font-code);
+}
+
+.boot-kicker {
+  margin: 0 0 8px;
+  color: oklch(0.78 0.17 85);
+  font-size: var(--text-caption);
+  font-weight: 700;
+}
+
+.boot-copy h1 {
+  margin: 0;
+  color: oklch(0.985 0.006 130);
+  font-family: var(--font-display);
+  font-size: clamp(2.9rem, 8vw, 6.8rem);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: 0;
+}
+
+.boot-line {
+  max-width: 44ch;
+  margin: 18px 0 0;
+  color: oklch(0.83 0.028 180);
+  font-size: var(--step-0);
+  line-height: 1.55;
+}
+
+.boot-checks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 16px;
+  padding: 0;
+  margin: clamp(24px, 4vw, 42px) 0 0;
+  color: oklch(0.75 0.025 190);
+  font-size: var(--text-tiny);
+  list-style: none;
+}
+
+.boot-checks li {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.boot-splash.is-complete {
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 240ms cubic-bezier(0.16, 1, 0.3, 1), transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes boot-ring-progress {
+  0% {
+    --boot-progress: 0deg;
+  }
+
+  46% {
+    --boot-progress: var(--boot-progress-mid-a, 218deg);
+  }
+
+  78% {
+    --boot-progress: var(--boot-progress-mid-b, 304deg);
+  }
+
+  100% {
+    --boot-progress: 360deg;
+  }
+}
+
 .site-footer,
 main > section,
 .post-shell,
@@ -1942,6 +2097,18 @@ html[data-mode="os"] body > footer.site-footer {
     background-attachment: scroll;
   }
 
+  .boot-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .boot-logo-shell {
+    justify-self: start;
+  }
+
+  .boot-checks {
+    grid-template-columns: 1fr;
+  }
+
   .site-header,
   .site-footer {
     align-items: flex-start;
@@ -2067,6 +2234,11 @@ html[data-mode="os"] body > footer.site-footer {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .boot-ring {
+    animation: none !important;
+    --boot-progress: 360deg;
+  }
+
   *,
   *::before,
   *::after {

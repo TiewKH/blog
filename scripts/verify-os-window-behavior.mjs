@@ -4,6 +4,7 @@ import { join } from "node:path";
 const root = process.cwd();
 const index = readFileSync(join(root, "src/pages/index.astro"), "utf8");
 const blogIndex = readFileSync(join(root, "src/pages/blog/index.astro"), "utf8");
+const bootSplash = readFileSync(join(root, "src/components/BootSplash.astro"), "utf8");
 const companyIcon = readFileSync(join(root, "src/components/CompanyIcon.astro"), "utf8");
 const experienceSection = readFileSync(join(root, "src/components/ExperienceSection.astro"), "utf8");
 const profileIntro = readFileSync(join(root, "src/components/ProfileIntro.astro"), "utf8");
@@ -11,9 +12,11 @@ const profilePanels = readFileSync(join(root, "src/components/ProfilePanels.astr
 const socialIcon = readFileSync(join(root, "src/components/SocialIcon.astro"), "utf8");
 const writingBrowser = readFileSync(join(root, "src/components/WritingBrowser.astro"), "utf8");
 const writingSection = readFileSync(join(root, "src/components/WritingSection.astro"), "utf8");
+const baseLayoutScript = readFileSync(join(root, "src/scripts/base-layout.js"), "utf8");
 const css = readFileSync(join(root, "src/styles/global.css"), "utf8");
 const layout = readFileSync(join(root, "src/layouts/BaseLayout.astro"), "utf8");
 const manifest = readFileSync(join(root, "public/assets/img/favicon_io/site.webmanifest"), "utf8");
+const persistentStorageToken = "local" + "Storage";
 
 const checks = [
   {
@@ -105,11 +108,12 @@ const checks = [
   {
     name: "external links open in a new tab globally",
     pass:
-      layout.includes("function applyExternalLinkTargets") &&
-      layout.includes('document.querySelectorAll("a[href]")') &&
-      layout.includes('link.target = "_blank"') &&
-      layout.includes('link.rel = "noopener noreferrer"') &&
-      layout.includes("url.origin === window.location.origin")
+      layout.includes('import "../scripts/base-layout.js"') &&
+      baseLayoutScript.includes("function applyExternalLinkTargets") &&
+      baseLayoutScript.includes('document.querySelectorAll("a[href]")') &&
+      baseLayoutScript.includes('link.target = "_blank"') &&
+      baseLayoutScript.includes('link.rel = "noopener noreferrer"') &&
+      baseLayoutScript.includes("url.origin === window.location.origin")
   },
   {
     name: "mode toggle order is stable across website and OS headers",
@@ -120,10 +124,22 @@ const checks = [
       !/data-mode-choice="os"[\s\S]{0,180}data-mode-choice="website"/.test(layout)
   },
   {
+    name: "desktop visitors default to OS mode unless they explicitly choose another mode",
+    pass:
+      baseLayoutScript.includes('const MODE_PREFERENCE_KEY = "siteModePreference:v2"') &&
+      baseLayoutScript.includes('window.sessionStorage.getItem(MODE_PREFERENCE_KEY) || "os"') &&
+      baseLayoutScript.includes("applyMode(getPreferredMode())") &&
+      baseLayoutScript.includes("rememberModePreference(selectedMode)") &&
+      !layout.includes(persistentStorageToken) &&
+      !baseLayoutScript.includes(persistentStorageToken)
+  },
+  {
     name: "mobile view disables OS mode and stays in website mode",
     pass:
-      layout.includes('const next = canOs && requested === "os" ? "os" : "website"') &&
-      layout.includes('localStorage.setItem("siteMode", next)') &&
+      baseLayoutScript.includes('const nextMode = isOsAvailable && requestedMode === "os" ? "os" : "website"') &&
+      baseLayoutScript.includes('const MODE_PREFERENCE_KEY = "siteModePreference:v2"') &&
+      baseLayoutScript.includes('window.sessionStorage.getItem(MODE_PREFERENCE_KEY) || "os"') &&
+      baseLayoutScript.includes("window.sessionStorage.setItem(MODE_PREFERENCE_KEY, normalizeMode(mode))") &&
       css.includes('@media (max-width: 767px)') &&
       css.includes('.mode-toggle {\n    display: none;') &&
       css.includes('html[data-mode="os"] .os-home {\n    display: none;') &&
@@ -142,9 +158,10 @@ const checks = [
     name: "website and OS top bars use matching desktop sizing",
     pass:
       css.includes("--topbar-height: 48px") &&
+      css.includes("--text-ui: 0.95rem") &&
       css.includes("height: var(--topbar-height)") &&
       css.includes(".os-menubar") &&
-      css.includes("font-size: 0.95rem") &&
+      css.includes("font-size: var(--text-ui)") &&
       css.includes("bottom: 0")
   },
   {
@@ -167,8 +184,8 @@ const checks = [
       index.includes("function routeWindowFocus") &&
       index.includes('history.pushState(null, "", route)') &&
       index.includes('syncWindowForPath(path)') &&
-      layout.includes('`writing&route=${encodeURIComponent(path)}`') &&
-      layout.includes('`contact&route=${encodeURIComponent(path)}`')
+      baseLayoutScript.includes('`writing&route=${encodeURIComponent(path)}`') &&
+      baseLayoutScript.includes('`contact&route=${encodeURIComponent(path)}`')
   },
   {
     name: "clicking an existing OS window updates the URL to that focused window",
@@ -182,20 +199,24 @@ const checks = [
   {
     name: "Website-to-OS toggle redirects subpages into route-backed landing desktop apps",
     pass:
-      layout.includes("function getOsAppForPath") &&
-      layout.includes('path.startsWith("/about/") ? "readme"') &&
-      layout.includes('path.startsWith("/blog/") && path !== "/blog/" ? `writing&article=${encodeURIComponent(path)}&route=${encodeURIComponent(path)}`') &&
-      layout.includes('path === "/blog" || path === "/blog/" || path.startsWith("/archive/") ? `writing&route=${encodeURIComponent(path)}`') &&
-      layout.includes('path.startsWith("/contact/") ? `contact&route=${encodeURIComponent(path)}`') &&
-      layout.includes("window.location.replace(`/?app=${app}`)") &&
-      layout.includes('next === "os" && path !== "/"') &&
-      layout.includes('window.location.assign(path)')
+      baseLayoutScript.includes("function getOsAppForPath") &&
+      baseLayoutScript.includes('path.startsWith("/about/")') &&
+      baseLayoutScript.includes('path.startsWith("/blog/") && path !== "/blog/"') &&
+      baseLayoutScript.includes('`writing&article=${encodeURIComponent(path)}&route=${encodeURIComponent(path)}`') &&
+      baseLayoutScript.includes('path === "/blog" || path === "/blog/" || path.startsWith("/archive/")') &&
+      baseLayoutScript.includes('`writing&route=${encodeURIComponent(path)}`') &&
+      baseLayoutScript.includes('path.startsWith("/contact/")') &&
+      baseLayoutScript.includes('`contact&route=${encodeURIComponent(path)}`') &&
+      baseLayoutScript.includes("window.location.replace(`/?app=${app}`)") &&
+      baseLayoutScript.includes('nextMode === "os" && path !== "/"') &&
+      baseLayoutScript.includes('window.location.assign(path)')
   },
   {
     name: "OS mode sends direct article URLs to the desktop article window",
     pass:
-      !layout.includes('path.startsWith("/blog/") || path.startsWith("/archive/") ? "writing"') &&
-      layout.includes('path.startsWith("/blog/") && path !== "/blog/" ? `writing&article=${encodeURIComponent(path)}&route=${encodeURIComponent(path)}`') &&
+      !baseLayoutScript.includes('path.startsWith("/blog/") || path.startsWith("/archive/") ? "writing"') &&
+      baseLayoutScript.includes('path.startsWith("/blog/") && path !== "/blog/"') &&
+      baseLayoutScript.includes('`writing&article=${encodeURIComponent(path)}&route=${encodeURIComponent(path)}`') &&
       index.includes('const initialRoute = initialParams.get("route")')
   },
   {
@@ -249,6 +270,35 @@ const checks = [
       !layout.includes("<strong>TiewOS</strong>")
   },
   {
+    name: "OS boot splash uses the provided logo and session-scoped two-second loading sequence",
+    pass:
+      layout.includes('import BootSplash from "../components/BootSplash.astro"') &&
+      layout.includes("<BootSplash />") &&
+      bootSplash.includes('class="boot-splash"') &&
+      bootSplash.includes('data-boot-splash') &&
+      bootSplash.includes('src="/assets/img/logo.png"') &&
+      bootSplash.includes("const buildDate = new Date()") &&
+      bootSplash.includes("const buildVersion = `v${buildDate.getFullYear()}.${pad(buildDate.getMonth() + 1)}.${pad(buildDate.getDate())}`") &&
+      bootSplash.includes("version: {buildVersion}") &&
+      !bootSplash.includes("data-boot-version") &&
+      layout.includes('const key = "tiewosBootSplashShown:v1"') &&
+      baseLayoutScript.includes('const BOOT_SPLASH_STORAGE_KEY = "tiewosBootSplashShown:v1"') &&
+      baseLayoutScript.includes("const randomizedDuration = Number(window.__tiewosBootDurationMs)") &&
+      baseLayoutScript.includes('const duration = root.dataset.bootSplash === "reduced"') &&
+      baseLayoutScript.includes(": Math.min(2000") &&
+      bootSplash.includes("Math.round(1350 + Math.random() * 650)") &&
+      bootSplash.includes("window.__tiewosBootDurationMs = duration") &&
+      bootSplash.includes("--boot-progress-mid-a") &&
+      bootSplash.includes("--boot-progress-mid-b") &&
+      bootSplash.includes('class="boot-ring"') &&
+      !bootSplash.includes('class="boot-meter"') &&
+      css.includes("@property --boot-progress") &&
+      css.includes("animation: boot-ring-progress var(--boot-duration, 2s)") &&
+      css.includes("@keyframes boot-ring-progress") &&
+      !css.includes(".boot-meter") &&
+      css.includes('html[data-boot-splash] .boot-splash')
+  },
+  {
     name: "OS top bars do not include social icons or search",
     pass:
       !index.includes('class="os-social-links"') &&
@@ -292,7 +342,7 @@ const checks = [
       index.includes('<ProfilePanels className="profile-grid website-home" />') &&
       index.includes('<ExperienceSection className="readme-experience-section" titleId="readme-experience-title" />') &&
       index.includes('<ExperienceSection className="experience-section website-home" titleId="experience-title" />') &&
-      profilePanels.includes("focusAreas.map") &&
+      profilePanels.includes("profile.stackGroups.map") &&
       experienceSection.includes("experience.map")
   },
   {

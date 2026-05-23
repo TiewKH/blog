@@ -4,7 +4,7 @@ const stackGroups = [
     items: ["Python", "Java", "TypeScript", "SQL"]
   },
   {
-    label: "ML & data",
+    label: "Machine Learning",
     items: ["PyTorch", "PySpark", "pandas", "scikit-learn", "MLflow", "BentoML"]
   },
   {
@@ -16,7 +16,7 @@ const stackGroups = [
     items: ["React", "React Native"]
   },
   {
-    label: "Data systems",
+    label: "Data",
     items: ["Airflow", "Postgres", "Redis", "Kafka", "BigQuery", "Redshift"]
   },
   {
@@ -34,7 +34,6 @@ export const profile = {
   github: "https://github.com/tiewkh",
   linkedin: "https://www.linkedin.com/in/tiewkh/",
   resume: "/assets/docs/Resume.pdf",
-  headline: "Building recommendation systems, ML platforms, and reliable data products.",
   summary:
     "Hi, I'm Kee Hui, a software engineer based in Singapore. I build full-stack applications, recommendation systems, and data & machine learning pipelines.",
   stackGroups

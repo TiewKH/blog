@@ -1,0 +1,36 @@
+---
+const buildDate = new Date();
+const pad = (value: number) => String(value).padStart(2, "0");
+const buildVersion = `v${buildDate.getFullYear()}.${pad(buildDate.getMonth() + 1)}.${pad(buildDate.getDate())}`;
+---
+
+<section class="boot-splash" aria-label="TiewOS boot screen" role="status" aria-live="polite" data-boot-splash>
+  <div class="boot-panel">
+    <div class="boot-logo-shell" aria-hidden="true">
+      <img src="/assets/img/logo.png" alt="" />
+      <span class="boot-ring"></span>
+    </div>
+    <div class="boot-copy">
+      <p class="boot-kicker">TiewOS</p>
+      <h1>Starting machine</h1>
+      <ol class="boot-checks" aria-hidden="true">
+        <li>kernel: portfolio</li>
+        <li>version: {buildVersion}</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  (() => {
+    const ring = document.querySelector(".boot-ring");
+    if (!ring) return;
+    const duration = Math.round(1350 + Math.random() * 650);
+    const midA = Math.round(120 + Math.random() * 95);
+    const midB = Math.round(Math.max(midA + 46, 250 + Math.random() * 72));
+    ring.style.setProperty("--boot-duration", `${duration}ms`);
+    ring.style.setProperty("--boot-progress-mid-a", `${midA}deg`);
+    ring.style.setProperty("--boot-progress-mid-b", `${Math.min(midB, 340)}deg`);
+    window.__tiewosBootDurationMs = duration;
+  })();
+</script>

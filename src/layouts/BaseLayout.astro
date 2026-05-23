@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import BootSplash from "../components/BootSplash.astro";
 import SocialIcon from "../components/SocialIcon.astro";
 import { profile, siteTitle } from "../lib/profile";
 
@@ -10,14 +11,14 @@ interface Props {
 
 const { title = siteTitle, description = "Machine learning, data systems, fullstack engineering notes, and technical writing." } = Astro.props;
 const pageTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
-const pathname = Astro.url.pathname;
-const isHome = pathname === "/";
-const enableGoogleAnalytics = import.meta.env.PROD;
-const pageAppTitle = pathname.startsWith("/blog/") ? "Writing.app" : pathname.startsWith("/about/") ? "README.md" : pathname.startsWith("/contact/") ? "Contact.app" : "Website.app";
-const bodyClass = [
-  isHome ? "home-page" : undefined,
-  !isHome ? "os-subpage" : undefined,
-  !isHome ? `os-app-${pageAppTitle.replace(/\W+/g, "-").replace(/-$/, "").toLowerCase()}` : undefined
+const currentPath = Astro.url.pathname;
+const isHomePage = currentPath === "/";
+const shouldLoadGoogleAnalytics = import.meta.env.PROD;
+const osWindowTitle = currentPath.startsWith("/blog/") ? "Writing.app" : currentPath.startsWith("/about/") ? "README.md" : currentPath.startsWith("/contact/") ? "Contact.app" : "Website.app";
+const bodyClassName = [
+  isHomePage ? "home-page" : undefined,
+  !isHomePage ? "os-subpage" : undefined,
+  !isHomePage ? `os-app-${osWindowTitle.replace(/\W+/g, "-").replace(/-$/, "").toLowerCase()}` : undefined
 ].filter(Boolean).join(" ");
 
 const navItems = [
@@ -47,7 +48,7 @@ const socialLinks = [
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
-    {enableGoogleAnalytics && (
+    {shouldLoadGoogleAnalytics && (
       <>
         <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-89L9XET7YL"></script>
         <script is:inline>
@@ -74,102 +75,24 @@ const socialLinks = [
     <title>{pageTitle}</title>
     <script is:inline>
       (() => {
+        const key = "tiewosBootSplashShown:v1";
         const root = document.documentElement;
-        const normalize = (mode) => {
-          if (mode === "workbench") return "os";
-          if (mode === "reader") return "website";
-          return mode === "os" ? "os" : "website";
-        };
-        function getOsAppForPath(path) {
-          return path.startsWith("/about/") ? "readme" :
-            path.startsWith("/blog/") && path !== "/blog/" ? `writing&article=${encodeURIComponent(path)}&route=${encodeURIComponent(path)}` :
-            path === "/blog" || path === "/blog/" || path.startsWith("/archive/") ? `writing&route=${encodeURIComponent(path)}` :
-            path.startsWith("/contact/") ? `contact&route=${encodeURIComponent(path)}` :
-            "";
+        const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        try {
+          if (window.sessionStorage.getItem(key) === "true") return;
+          root.dataset.bootSplash = reducedMotion ? "reduced" : "pending";
+        } catch {
+          root.dataset.bootSplash = reducedMotion ? "reduced" : "pending";
         }
-        function applyExternalLinkTargets() {
-          document.querySelectorAll("a[href]").forEach((link) => {
-            const href = link.getAttribute("href");
-            if (!href) return;
-            const url = new URL(href, window.location.href);
-            if (!["http:", "https:"].includes(url.protocol) || url.origin === window.location.origin) return;
-            link.target = "_blank";
-            link.rel = "noopener noreferrer";
-          });
-        }
-        function resizeLegacyFrame(iframe) {
-          try {
-            const doc = iframe.contentDocument;
-            if (!doc) return;
-            const body = doc.body;
-            const html = doc.documentElement;
-            const height = Math.max(
-              body?.scrollHeight || 0,
-              body?.offsetHeight || 0,
-              html?.scrollHeight || 0,
-              html?.offsetHeight || 0,
-              760
-            );
-            iframe.style.height = `${height}px`;
-            iframe.scrolling = "no";
-          } catch {
-            iframe.style.height = iframe.style.height || "760px";
-          }
-        }
-        function applyLegacyFrameSizing() {
-          document.querySelectorAll(".legacy-frame iframe").forEach((iframe) => {
-            const resize = () => {
-              resizeLegacyFrame(iframe);
-              window.setTimeout(() => resizeLegacyFrame(iframe), 250);
-              window.setTimeout(() => resizeLegacyFrame(iframe), 1000);
-            };
-            if (!iframe.dataset.legacyFrameSizing) {
-              iframe.dataset.legacyFrameSizing = "true";
-              iframe.addEventListener("load", resize);
-            }
-            resize();
-          });
-        }
-        const apply = (mode) => {
-          const requested = normalize(mode);
-          const canOs = window.matchMedia("(min-width: 768px)").matches;
-          const next = canOs && requested === "os" ? "os" : "website";
-          root.dataset.osAvailable = canOs ? "true" : "false";
-          localStorage.setItem("siteMode", next);
-          const path = window.location.pathname;
-          if (next === "website" && document.body?.classList.contains("home-page") && path !== "/") {
-            window.location.assign(path);
-            return;
-          }
-          if (next === "os" && path !== "/") {
-            const app = getOsAppForPath(path);
-            if (app) {
-              window.location.replace(`/?app=${app}`);
-              return;
-            }
-          }
-          root.dataset.mode = next;
-        };
-        apply(localStorage.getItem("siteMode") || "os");
-        window.addEventListener("resize", () => {
-          apply(localStorage.getItem("siteMode") || "os");
-          applyLegacyFrameSizing();
-        });
-        window.addEventListener("DOMContentLoaded", () => {
-          applyExternalLinkTargets();
-          applyLegacyFrameSizing();
-          document.querySelectorAll("[data-mode-choice]").forEach((button) => {
-            button.addEventListener("click", () => {
-              const mode = button.getAttribute("data-mode-choice");
-              apply(mode);
-            });
-          });
-        });
       })();
     </script>
+    <script>
+      import "../scripts/base-layout.js";
+    </script>
   </head>
-  <body class={bodyClass || undefined}>
-    {!isHome && (
+  <body class={bodyClassName || undefined}>
+    <BootSplash />
+    {!isHomePage && (
       <section class="os-page-shell" aria-label="OS mode">
         <div class="os-menubar">
           <a class="os-brand" href="/" aria-label="Home">
@@ -225,7 +148,7 @@ const socialLinks = [
       </a>
       <nav aria-label="Primary navigation">
         {navItems.map((item) => (
-          <a href={item.href} aria-current={(item.href === "/" ? pathname === "/" || pathname.startsWith("/about/") : pathname.startsWith(item.href)) ? "page" : undefined}>
+          <a href={item.href} aria-current={(item.href === "/" ? currentPath === "/" || currentPath.startsWith("/about/") : currentPath.startsWith(item.href)) ? "page" : undefined}>
             {item.label}
           </a>
         ))}
@@ -241,7 +164,7 @@ const socialLinks = [
         </button>
       </div>
     </header>
-    <main class="site-main" data-os-window-title={pageAppTitle}>
+    <main class="site-main" data-os-window-title={osWindowTitle}>
       <slot />
     </main>
     <footer class="site-footer">
