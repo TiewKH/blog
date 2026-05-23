@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <rect width="160" height="160" fill="none"/>
+  <g opacity=".36" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M25 18l-9 9 9 9m13-18 9 9-9 9" stroke="#45a985" stroke-width="1"/>
+    <path d="M94 18c-8 0-9 6-9 12v4c0 6-2 9-8 9 6 0 8 3 8 9v4c0 6 1 12 9 12" stroke="#7c6fc7" stroke-width="1"/>
+    <path d="M130 21h18m-18 11h10" stroke="#c87143" stroke-width="1"/>
+    <path d="M32 80h24m-24 0 7-7m-7 7 7 7" stroke="#45a985" stroke-width="1"/>
+    <path d="M87 77c8 0 12 4 12 12v13c0 7 4 11 12 11m0-36c-8 0-12 4-12 12" stroke="#c87143" stroke-width="1"/>
+    <path d="M123 92h20m-20 11h13m-13 11h20" stroke="#7c6fc7" stroke-width="1"/>
+    <path d="M23 123v-18m0 18c0 8 8 12 18 12h16m-34-30c0-8 8-12 18-12h9" stroke="#45a985" stroke-width="1"/>
+    <path d="M109 134l9-9 9 9" stroke="#c87143" stroke-width="1"/>
+  </g>
+  <g opacity=".32" fill="#09202e" font-family="JetBrains Mono, ui-monospace, monospace" font-size="10" font-weight="600">
+    <text x="17" y="57">$_</text>
+    <text x="65" y="33">;</text>
+    <text x="132" y="67">=&gt;</text>
+    <text x="58" y="125">&lt;/&gt;</text>
+    <text x="106" y="55">::</text>
+  </g>
+  <g opacity=".26" fill="#09202e">
+    <circle cx="61" cy="26" r="1"/>
+    <circle cx="146" cy="26" r="1"/>
+    <circle cx="18" cy="63" r="1"/>
+    <circle cx="101" cy="66" r="1"/>
+    <circle cx="72" cy="114" r="1"/>
+    <circle cx="143" cy="122" r="1"/>
+  </g>
+  <g opacity=".18" fill="none" stroke="#09202e" stroke-width="1">
+    <path d="M0 82h9"/>
+    <path d="M151 82h9"/>
+    <path d="M82 0v9"/>
+    <path d="M82 151v9"/>
+  </g>
+</svg>
