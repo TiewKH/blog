@@ -31,15 +31,8 @@ const buildVersion = `v${buildDate.getFullYear()}.${pad(buildDate.getMonth() + 1
   (() => {
     const ring = document.querySelector(".boot-ring");
     if (!ring) return;
-    const duration = Math.round(1350 + Math.random() * 650);
-    const midA = Math.round(120 + Math.random() * 95);
-    const midB = Math.round(Math.max(midA + 46, 250 + Math.random() * 72));
+    const duration = 2000;
     ring.style.setProperty("--boot-duration", `${duration}ms`);
-    ring.style.setProperty("--boot-progress-mid-a", `${midA}deg`);
-    ring.style.setProperty(
-      "--boot-progress-mid-b",
-      `${Math.min(midB, 340)}deg`,
-    );
     window.__tiewosBootDurationMs = duration;
   })();
 </script>

@@ -178,6 +178,7 @@ html[data-boot-splash] body {
   width: min(980px, 100%);
   min-height: min(620px, 78vh);
   padding: clamp(18px, 4vw, 44px);
+  transform-origin: 50% 44%;
 }
 
 .boot-logo-shell {
@@ -268,11 +269,12 @@ html[data-boot-splash] body {
 }
 
 .boot-splash.is-complete {
-  opacity: 0;
-  transform: translateY(-6px);
-  transition:
-    opacity 240ms cubic-bezier(0.16, 1, 0.3, 1),
-    transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  animation: boot-splash-exit 1000ms linear forwards;
+}
+
+.boot-splash.is-complete .boot-panel {
+  animation: boot-panel-exit 1000ms linear forwards;
 }
 
 @keyframes boot-ring-progress {
@@ -280,16 +282,30 @@ html[data-boot-splash] body {
     --boot-progress: 0deg;
   }
 
-  46% {
-    --boot-progress: var(--boot-progress-mid-a, 218deg);
+  100% {
+    --boot-progress: 360deg;
   }
+}
 
-  78% {
-    --boot-progress: var(--boot-progress-mid-b, 304deg);
+@keyframes boot-splash-exit {
+  0% {
+    opacity: 1;
   }
 
   100% {
-    --boot-progress: 360deg;
+    opacity: 0;
+  }
+}
+
+@keyframes boot-panel-exit {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-14px) scale(0.985);
   }
 }
 

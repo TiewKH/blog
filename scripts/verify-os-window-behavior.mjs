@@ -388,21 +388,38 @@ const checks = [
         'const BOOT_SPLASH_STORAGE_KEY = "tiewosBootSplashShown:v1"',
       ) &&
       baseLayoutScript.includes(
+        'document.querySelector(".boot-splash[data-boot-splash]")',
+      ) &&
+      !baseLayoutScript.includes(
+        'document.querySelector("[data-boot-splash]")',
+      ) &&
+      baseLayoutScript.includes(
         "const randomizedDuration = Number(window.__tiewosBootDurationMs)",
       ) &&
       /const duration =\s*root\.dataset\.bootSplash === "reduced"/.test(
         baseLayoutScript,
       ) &&
       /:\s*Math\.min\(\s*2000/.test(baseLayoutScript) &&
-      bootSplash.includes("Math.round(1350 + Math.random() * 650)") &&
+      bootSplash.includes("const duration = 2000") &&
       bootSplash.includes("window.__tiewosBootDurationMs = duration") &&
-      bootSplash.includes("--boot-progress-mid-a") &&
-      bootSplash.includes("--boot-progress-mid-b") &&
+      baseLayoutScript.includes("const exitDuration =") &&
+      baseLayoutScript.includes(
+        'root.dataset.bootSplash === "reduced" ? 80 : 1000',
+      ) &&
+      !baseLayoutScript.includes('"animationend"') &&
+      !bootSplash.includes("progressBreakpoints") &&
+      !bootSplash.includes("--boot-progress-step") &&
       bootSplash.includes('class="boot-ring"') &&
       !bootSplash.includes('class="boot-meter"') &&
       css.includes("@property --boot-progress") &&
       css.includes("animation: boot-ring-progress var(--boot-duration, 2s)") &&
       css.includes("@keyframes boot-ring-progress") &&
+      css.includes(".boot-splash.is-complete .boot-panel") &&
+      css.includes("animation: boot-splash-exit 1000ms linear forwards") &&
+      css.includes("animation: boot-panel-exit 1000ms linear forwards") &&
+      css.includes("@keyframes boot-splash-exit") &&
+      css.includes("@keyframes boot-panel-exit") &&
+      !css.includes("--boot-progress-step") &&
       !css.includes(".boot-meter") &&
       css.includes("html[data-boot-splash] .boot-splash"),
   },

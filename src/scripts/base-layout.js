@@ -126,7 +126,7 @@ function applyMode(mode) {
 }
 
 function finishBootSplash() {
-  const bootSplash = document.querySelector("[data-boot-splash]");
+  const bootSplash = document.querySelector(".boot-splash[data-boot-splash]");
   if (!bootSplash || !root.dataset.bootSplash) return;
 
   const randomizedDuration = Number(window.__tiewosBootDurationMs);
@@ -142,6 +142,11 @@ function finishBootSplash() {
         );
 
   window.setTimeout(() => {
+    const removeBootSplash = () => {
+      delete root.dataset.bootSplash;
+    };
+    const exitDuration = root.dataset.bootSplash === "reduced" ? 80 : 1000;
+
     bootSplash.classList.add("is-complete");
     try {
       window.sessionStorage.setItem(BOOT_SPLASH_STORAGE_KEY, "true");
@@ -149,12 +154,7 @@ function finishBootSplash() {
       // Storage can be unavailable in hardened browsing contexts.
     }
 
-    window.setTimeout(
-      () => {
-        delete root.dataset.bootSplash;
-      },
-      root.dataset.bootSplash === "reduced" ? 80 : 260,
-    );
+    window.setTimeout(removeBootSplash, exitDuration);
   }, duration);
 }
 
