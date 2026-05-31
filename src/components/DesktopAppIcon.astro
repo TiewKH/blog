@@ -1,0 +1,36 @@
+---
+interface Props {
+  icon: "readme" | "writing" | "contact";
+}
+
+const { icon } = Astro.props;
+---
+
+<span class={`icon-file icon-file--${icon}`} aria-hidden="true">
+  {
+    icon === "readme" ? (
+      <svg viewBox="0 0 24 24">
+        <path d="M7 3.5h7.2L18 7.3v13.2H7z" />
+        <path d="M14 3.5v4h4" />
+        <path d="M10 11h5" />
+        <path d="M10 14h4" />
+        <path d="M10 17h6" />
+      </svg>
+    ) : icon === "writing" ? (
+      <svg viewBox="0 0 24 24">
+        <path d="M6 4.5h9.5L18 7v12.5H6z" />
+        <path d="M15.5 4.5V7H18" />
+        <path d="M9 12h4.8" />
+        <path d="M9 15h3.4" />
+        <path d="m14.4 16.6 4.2-4.2 1.2 1.2-4.2 4.2-1.7.5z" />
+      </svg>
+    ) : (
+      <svg viewBox="0 0 24 24">
+        <path d="M5 7.2h14v10.6H5z" />
+        <path d="m5.5 8 6.5 5 6.5-5" />
+        <path d="m5.8 17.2 4.3-4" />
+        <path d="m18.2 17.2-4.3-4" />
+      </svg>
+    )
+  }
+</span>

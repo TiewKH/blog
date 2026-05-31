@@ -1247,36 +1247,50 @@ kbd {
   text-decoration: none;
 }
 
-.desktop-icon:hover,
+.desktop-icon:hover {
+  border-color: oklch(0.55 0.08 155 / 0.42);
+  background: oklch(0.97 0.018 155 / 0.7);
+}
+
 .desktop-icon.active {
-  border-color: var(--line);
-  background: oklch(0.99 0.006 140 / 0.72);
+  border-color: oklch(0.55 0.145 155 / 0.7);
+  background: oklch(0.95 0.04 155 / 0.72);
 }
 
 .desktop-icon.external-link {
   position: relative;
-  border-color: oklch(0.62 0.18 28 / 0.42);
-  background: oklch(0.93 0.045 55 / 0.5);
+  border-color: transparent;
+  background: transparent;
 }
 
 .desktop-icon.external-link:hover {
-  border-color: oklch(0.62 0.18 28);
-  background: oklch(0.93 0.045 55 / 0.85);
+  border-color: oklch(0.5 0.11 252 / 0.68);
+  background: transparent;
 }
 
 .external-indicator {
   position: absolute;
-  top: 6px;
-  right: 6px;
+  top: 5px;
+  right: 5px;
+  display: grid;
+  width: 17px;
+  height: 17px;
+  place-items: center;
   padding: 0;
   border: 0;
   border-radius: 0;
   background: transparent;
-  color: oklch(0.48 0.16 28);
-  font-family: var(--font-code);
-  font-size: var(--text-micro);
-  font-weight: 700;
-  line-height: 1.2;
+  color: oklch(0.42 0.11 252);
+}
+
+.external-indicator svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+  stroke-width: 2.1;
 }
 
 .icon-file {
@@ -1286,26 +1300,48 @@ kbd {
   place-items: center;
   border: 1px solid var(--accent);
   border-radius: var(--radius);
+  background: oklch(0.95 0.04 155 / 0.62);
   color: var(--accent);
   font-family: var(--font-code);
   font-size: var(--text-tiny);
   font-weight: 700;
 }
 
-.icon-file.pdf {
-  border-color: oklch(0.62 0.18 28);
-  color: oklch(0.62 0.18 28);
+.icon-file svg {
+  width: 26px;
+  height: 26px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
 }
 
-.icon-file.chat {
-  border-color: var(--accent-3);
-  color: var(--accent-3);
+.icon-file--readme,
+.icon-file--writing,
+.icon-file--contact {
+  border-color: var(--accent);
+  background: oklch(0.95 0.04 155 / 0.62);
+  color: oklch(0.43 0.13 155);
+}
+
+.icon-file.pdf {
+  border-color: oklch(0.5 0.11 252);
+  background: transparent;
+  color: oklch(0.44 0.12 252);
+}
+
+.icon-file.social {
+  border-color: oklch(0.5 0.11 252);
+  background: transparent;
+  color: oklch(0.44 0.12 252);
 }
 
 .icon-file.social svg {
   width: 22px;
   height: 22px;
   fill: currentColor;
+  stroke: none;
 }
 
 .window-frame {
@@ -1326,12 +1362,13 @@ kbd {
 }
 
 .window-bar {
+  position: relative;
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: minmax(0, 1fr);
   align-items: center;
   gap: 14px;
   min-height: 44px;
-  padding: 0 16px;
+  padding: 0 76px 0 16px;
   border-bottom: 1px solid var(--line);
   background: linear-gradient(180deg, var(--surface), var(--surface-2));
   cursor: grab;
@@ -1339,28 +1376,14 @@ kbd {
 }
 
 .window-bar.compact {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
 }
 
-.traffic-lights {
-  display: flex;
-  gap: 7px;
-}
-
-.traffic-lights span {
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  background: var(--accent-2);
-}
-
-.traffic-lights span:nth-child(2) {
-  background: oklch(0.78 0.17 85);
-}
-
-.traffic-lights span:nth-child(3) {
-  background: var(--accent);
+.window-bar strong {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .window-actions,
@@ -1371,20 +1394,26 @@ kbd {
 }
 
 .window-actions {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
   display: inline-flex;
-  gap: 4px;
+  gap: 0;
   justify-content: flex-end;
 }
 
 .window-control {
   display: grid;
-  width: 30px;
-  height: 30px;
+  width: 34px;
+  height: 100%;
   place-items: center;
-  border: 1px solid transparent;
-  border-radius: 4px;
+  border: 0;
+  border-left: 1px solid transparent;
+  border-radius: 0;
   background: transparent;
   color: var(--muted);
+  cursor: pointer;
   font-family: var(--font-code);
   line-height: 1;
 }

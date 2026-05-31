@@ -17,7 +17,7 @@
     "verify": "pnpm lint && pnpm format:check && pnpm test"
   },
   "dependencies": {
-    "@astrojs/sitemap": "^3.7.2",
+    "@astrojs/sitemap": "^3.7.3",
     "astro": "^6.4.2"
   },
   "devDependencies": {

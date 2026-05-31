@@ -30,9 +30,11 @@ function applyExternalLinkTargets() {
     if (!href) return;
 
     const url = new URL(href, window.location.href);
+    const isDirectShortcut = link.getAttribute("data-link-kind") === "external";
     if (
-      !["http:", "https:"].includes(url.protocol) ||
-      url.origin === window.location.origin
+      !isDirectShortcut &&
+      (!["http:", "https:"].includes(url.protocol) ||
+        url.origin === window.location.origin)
     )
       return;
 
