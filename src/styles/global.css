@@ -1362,12 +1362,13 @@ kbd {
 }
 
 .window-bar {
+  position: relative;
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: minmax(0, 1fr);
   align-items: center;
   gap: 14px;
   min-height: 44px;
-  padding: 0 16px;
+  padding: 0 76px 0 16px;
   border-bottom: 1px solid var(--line);
   background: linear-gradient(180deg, var(--surface), var(--surface-2));
   cursor: grab;
@@ -1375,8 +1376,14 @@ kbd {
 }
 
 .window-bar.compact {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+}
+
+.window-bar strong {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .window-actions,
@@ -1387,20 +1394,26 @@ kbd {
 }
 
 .window-actions {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
   display: inline-flex;
-  gap: 4px;
+  gap: 0;
   justify-content: flex-end;
 }
 
 .window-control {
   display: grid;
-  width: 30px;
-  height: 30px;
+  width: 34px;
+  height: 100%;
   place-items: center;
-  border: 1px solid transparent;
-  border-radius: 4px;
+  border: 0;
+  border-left: 1px solid transparent;
+  border-radius: 0;
   background: transparent;
   color: var(--muted);
+  cursor: pointer;
   font-family: var(--font-code);
   line-height: 1;
 }
