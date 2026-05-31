@@ -1,6 +1,8 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ContactSection from "../components/ContactSection.astro";
+import DesktopAppIcon from "../components/DesktopAppIcon.astro";
+import ExternalLinkMark from "../components/ExternalLinkMark.astro";
 import ExperienceSection from "../components/ExperienceSection.astro";
 import ProfileIntro from "../components/ProfileIntro.astro";
 import ProfilePanels from "../components/ProfilePanels.astro";
@@ -53,11 +55,11 @@ const articleEntries = await Promise.all(
           type="button"
           data-open-window="readme"
         >
-          <span class="icon-file">M</span>
+          <DesktopAppIcon icon="readme" />
           README.md
         </button>
         <button class="desktop-icon" type="button" data-open-window="writing">
-          <span class="icon-file pen">P</span>
+          <DesktopAppIcon icon="writing" />
           Writing.app
         </button>
         <a
@@ -66,7 +68,7 @@ const articleEntries = await Promise.all(
           data-link-kind="external"
         >
           <span class="icon-file pdf">PDF</span>
-          <span class="external-indicator" aria-hidden="true">open</span>
+          <ExternalLinkMark />
           Resume.pdf
         </a>
         <a
@@ -77,7 +79,7 @@ const articleEntries = await Promise.all(
           <span class="icon-file social" aria-hidden="true"
             ><SocialIcon icon="github" /></span
           >
-          <span class="external-indicator" aria-hidden="true">ext</span>
+          <ExternalLinkMark />
           GitHub
         </a>
         <a
@@ -88,11 +90,11 @@ const articleEntries = await Promise.all(
           <span class="icon-file social" aria-hidden="true"
             ><SocialIcon icon="linkedin" /></span
           >
-          <span class="external-indicator" aria-hidden="true">ext</span>
+          <ExternalLinkMark />
           LinkedIn
         </a>
         <button class="desktop-icon" type="button" data-open-window="contact">
-          <span class="icon-file chat">C</span>
+          <DesktopAppIcon icon="contact" />
           Contact.app
         </button>
       </aside>
@@ -103,9 +105,6 @@ const articleEntries = await Promise.all(
         data-window-id="readme"
       >
         <header class="window-bar">
-          <span class="traffic-lights" aria-hidden="true">
-            <span></span><span></span><span></span>
-          </span>
           <strong>README.md</strong>
           <span class="window-actions">
             <button

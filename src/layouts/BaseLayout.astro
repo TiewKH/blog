@@ -1,6 +1,8 @@
 ---
 import "../styles/global.css";
 import BootSplash from "../components/BootSplash.astro";
+import DesktopAppIcon from "../components/DesktopAppIcon.astro";
+import ExternalLinkMark from "../components/ExternalLinkMark.astro";
 import SocialIcon from "../components/SocialIcon.astro";
 import { profile, siteTitle } from "../lib/profile";
 
@@ -160,27 +162,42 @@ const socialLinks = [
           </div>
           <aside class="desktop-dock os-page-dock" aria-label="Desktop links">
             <a class="desktop-icon" href="/blog/" data-os-app-link="writing">
-              <span class="icon-file pen">P</span>
+              <DesktopAppIcon icon="writing" />
               Writing.app
             </a>
-            <a class="desktop-icon" href={profile.resume}>
+            <a
+              class="desktop-icon external-link"
+              href={profile.resume}
+              data-link-kind="external"
+            >
               <span class="icon-file pdf">PDF</span>
+              <ExternalLinkMark />
               Resume.pdf
             </a>
-            <a class="desktop-icon" href={profile.github}>
+            <a
+              class="desktop-icon external-link"
+              href={profile.github}
+              data-link-kind="external"
+            >
               <span class="icon-file social" aria-hidden="true">
                 <SocialIcon icon="github" />
               </span>
+              <ExternalLinkMark />
               GitHub
             </a>
-            <a class="desktop-icon" href={profile.linkedin}>
+            <a
+              class="desktop-icon external-link"
+              href={profile.linkedin}
+              data-link-kind="external"
+            >
               <span class="icon-file social" aria-hidden="true">
                 <SocialIcon icon="linkedin" />
               </span>
+              <ExternalLinkMark />
               LinkedIn
             </a>
             <a class="desktop-icon" href="/contact/" data-os-app-link="contact">
-              <span class="icon-file chat">C</span>
+              <DesktopAppIcon icon="contact" />
               Contact.app
             </a>
           </aside>
